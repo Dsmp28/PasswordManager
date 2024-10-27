@@ -2,8 +2,8 @@ package org.java.passwordmanager.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
 public class signInController {
     @FXML
@@ -13,13 +13,14 @@ public class signInController {
     private TextField txtUsuario;
 
     @FXML
-    private TextField txtPassword;
+    private PasswordField txtPassword;
+
+    @FXML
+    private PasswordField txtEncriptacion;
 
     @FXML
     private Button btnSalir;
 
-    @FXML
-    private Button btnRegistrarse;
 
     @FXML
     private void salir(){
@@ -28,9 +29,5 @@ public class signInController {
     @FXML
     private void registrarse(){
         //Abrir ventana de registro
-    }
-    @FXML
-    private void iniciarSesion(){
-        //Iniciar sesión
     }
 }

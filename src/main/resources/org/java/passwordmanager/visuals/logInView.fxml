@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="740.0" stylesheets="@../stylesheets/signInStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.signInController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="740.0" stylesheets="@../stylesheets/signInStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.logInController">
    <children>
       <ImageView fitHeight="494.0" fitWidth="740.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -40,7 +40,19 @@
                         <Image url="@../images/candado.png" />
                      </image>
                   </ImageView>
-                  <VBox alignment="CENTER" prefHeight="228.0" prefWidth="343.0">
+                  <Button fx:id="btnRegistrarse" mnemonicParsing="false" onAction="#registrarse" prefHeight="10.0" prefWidth="154.0" styleClass="btnSalir">
+                     <graphic>
+                        <Text fx:id="txtRegistrarse" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="¿Primera vez? Regístrate" underline="true">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Text>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <VBox alignment="CENTER" prefHeight="174.0" prefWidth="343.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="Usuario" wrappingWidth="342.39453125" />
                         <Region prefHeight="7.0" prefWidth="343.0" />
@@ -50,11 +62,7 @@
                         <Region prefHeight="7.0" prefWidth="343.0" />
                         <PasswordField fx:id="txtPassword" styleClass="txtFieldSignIn" />
                         <Region prefHeight="20.0" prefWidth="343.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="Contraseña de encriptación" wrappingWidth="341.0537109375" />
-                        <Region prefHeight="7.0" prefWidth="343.0" />
-                        <PasswordField fx:id="txtEncriptacion" styleClass="txtFieldSignIn" />
-                        <Region prefHeight="15.0" prefWidth="343.0" />
-                        <Button fx:id="btnIniciar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registrarse" prefHeight="30.0" prefWidth="98.0" styleClass="btnIniciar" text="Registrarse" textAlignment="CENTER">
+                        <Button fx:id="btnIniciar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="30.0" prefWidth="98.0" styleClass="btnIniciar" text="Ingresar" textAlignment="CENTER">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

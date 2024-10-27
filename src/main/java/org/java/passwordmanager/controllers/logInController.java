@@ -43,6 +43,16 @@ public class logInController {
     }
     @FXML
     private void iniciarSesion(){
-        //Iniciar sesión
+        //Validar usuario y contraseña
+        //Abrir ventana principal
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/lateralView.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(fxmlLoader.load(), 740, 495));
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

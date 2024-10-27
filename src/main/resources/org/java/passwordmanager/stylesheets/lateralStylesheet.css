@@ -1,0 +1,18 @@
+.lateralPane{
+    -fx-background-color: #2c2c2c;
+}
+.txtTitulo{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-family: "Droid Sans";
+    -fx-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+.txtLateral{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Droid Sans";
+    -fx-fill: #ffffff;
+    -fx-background-color: transparent;
+}

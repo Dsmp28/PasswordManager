@@ -1,3 +1,31 @@
 .paneBackground{
-    -fx-background-color: #000000;
+    -fx-background-color: #1F1F1F;
+}
+.textFieldBackground{
+    -fx-background-color: #484848;
+    -fx-text-fill: #ffffff;
+}
+.btnAnadir{
+    -fx-background-color: #333333;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Droid Sans";
+    -fx-font-weight: bold;
+}
+.btnSubir{
+    -fx-background-color:transparent;
+}
+.txtFieldCampo{
+    -fx-background-color: #484848;
+    -fx-text-fill: #ffffff;
+}
+.labelEtiqueta{
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Droid Sans";
+}
+.lbApp{
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-font-family: "Droid Sans";
 }

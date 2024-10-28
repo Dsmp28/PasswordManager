@@ -48,7 +48,7 @@ public class logInController {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/lateralView.fxml"));
             Stage stage = new Stage();
-            stage.setScene(new Scene(fxmlLoader.load(), 740, 495));
+            stage.setScene(new Scene(fxmlLoader.load(), 1040, 495));
             stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
         }catch(Exception e){

@@ -1,0 +1,16 @@
+.backgroundItem{
+    -fx-background-color: #1F1F1F;
+}
+.txtTitulo{
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-font-family: "Droid Sans";
+}
+.txtCorreo{
+    -fx-font-size: 12px;
+    -fx-fill: #ffffff;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Droid Sans";
+}

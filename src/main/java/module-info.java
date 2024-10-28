@@ -8,4 +8,7 @@ module org.java.passwordmanager {
 
     opens org.java.passwordmanager to javafx.fxml;
     exports org.java.passwordmanager;
+
+    opens org.java.passwordmanager.controllers to javafx.fxml;
+    exports org.java.passwordmanager.controllers;
 }

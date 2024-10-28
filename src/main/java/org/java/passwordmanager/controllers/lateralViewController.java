@@ -4,8 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,7 +66,22 @@ public class lateralViewController implements Initializable {
     }
     @FXML
     public void btnAjustes(){
-        activeButton(btnAjustes, "settingsView.fxml");
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/settingsView.fxml"));
+            Parent root = loader.load();
+            Stage emergente = new Stage();
+            emergente.initModality(Modality.APPLICATION_MODAL);
+            emergente.initStyle(StageStyle.UNDECORATED);
+            emergente.setResizable(false);
+            emergente.setMaximized(false);
+            emergente.setTitle("Ajustes");
+            emergente.setScene(new Scene(root));
+            settingsController controller = loader.getController();
+            controller.setStage(emergente);
+            emergente.showAndWait();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     @FXML
     public void btnSalir(){

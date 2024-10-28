@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane prefHeight="300.0" prefWidth="425.0" styleClass="paneBackground" stylesheets="@../stylesheets/settingsStylesheet.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.settingsController">
+   <children>
+      <Label layoutX="20.0" layoutY="14.0" styleClass="txtTitulo" text="Configuración del programa" />
+      <Button fx:id="btnSalir" layoutX="377.0" layoutY="17.0" mnemonicParsing="false" onAction="#salir" styleClass="btnSalir">
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/xSalir.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Line endX="287.0" layoutX="121.0" layoutY="51.0" startX="-100.0" stroke="#2c2c2c" />
+      <Label layoutX="20.0" layoutY="65.0" styleClass="txtTitCampo" text="Tiempo de inactividad (seg)" />
+      <TextField fx:id="txtInactividad" layoutX="20.0" layoutY="88.0" prefHeight="25.0" prefWidth="171.0" styleClass="txtFieldCampo" />
+      <Label layoutX="20.0" layoutY="121.0" styleClass="txtTitCampo" text="Tiempo en portapapeles (seg)" />
+      <TextField fx:id="txtPortapapeles" layoutX="20.0" layoutY="144.0" prefHeight="25.0" prefWidth="171.0" styleClass="txtFieldCampo" />
+      <Label layoutX="20.0" layoutY="178.0" prefHeight="40.0" prefWidth="171.0" styleClass="txtTitCampo" text="Tiempo de expiración de contraseña" wrapText="true" />
+      <ComboBox fx:id="cbExpiracion" layoutX="20.0" layoutY="220.0" prefHeight="25.0" prefWidth="171.0" promptText="... días" styleClass="cbCampo" />
+      <Label layoutX="232.0" layoutY="86.0" styleClass="txtTit2" text="Cambio de clave DES" />
+      <Label layoutX="232.0" layoutY="106.0" styleClass="txtTitCampo" text="Antigua clave" />
+      <PasswordField fx:id="txtAntigua" layoutX="232.0" layoutY="130.0" prefHeight="25.0" prefWidth="171.0" styleClass="txtFieldCampo" />
+      <Label layoutX="232.0" layoutY="166.0" styleClass="txtTitCampo" text="Nueva clave" />
+      <PasswordField fx:id="txtNueva" layoutX="232.0" layoutY="190.0" prefHeight="25.0" prefWidth="171.0" styleClass="txtFieldCampo" />
+      <Button fx:id="btnGuardar" layoutX="151.0" layoutY="261.0" mnemonicParsing="false" onAction="#guardarCambios" prefHeight="25.0" prefWidth="127.0" styleClass="btnCambios" text="Guardar cambios">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>

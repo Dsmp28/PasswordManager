@@ -1,0 +1,57 @@
+.paneBackground{
+    -fx-background-color: #1F1F1F;
+}
+.txtTitulo{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Roboto Light";
+}
+.btnSalir{
+    -fx-background-color:transparent;
+}
+.txtTitCampo{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto Light";
+}
+.txtFieldCampo{
+    -fx-background-color: #484848;
+    -fx-text-fill: #ffffff;
+}
+.txtTit2{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+}
+.btnCambios{
+    -fx-background-color: #333333;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Droid Sans";
+    -fx-font-weight: bold;
+}
+.cbCampo{
+    -fx-background-color: #484848;
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+}
+.combo-box .list-cell{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+}
+.combo-box .list-view .list-cell{
+    -fx-background-color: #484848;
+    -fx-text-fill: #ffffff;
+}
+.combo-box .list-view .list-cell:focused{
+    -fx-background-color: #333333;
+    -fx-text-fill: #ffffff;
+}
+.combo-box .list-view .list-cell:hover {
+    -fx-background-color : #333333;  /* Cadet Blue */
+    -fx-text-fill: white;
+}

@@ -57,7 +57,9 @@ public class RegistroController {
     public static Registro getRegistro(int id) {
         return registros.get(id);
     }
-
+    public static int getTotalRegistros() {
+        return registros.size();
+    }
     public static Map<Integer, Registro> getRegistros() {
         return registros;
     }

@@ -1,6 +1,7 @@
 package org.java.passwordmanager.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import org.java.passwordmanager.HelloApplication;
 import org.java.passwordmanager.objectControllers.RegistroController;
 import org.java.passwordmanager.objects.CamposExtra;
@@ -78,6 +80,8 @@ public class homeViewController implements Initializable {
     @FXML
     private TextField txtAdicional5;
 
+    @FXML
+    private VBox vItems;
     //ESTO ES DEL PANE DE PASSWORD (pendiente, no hacer caso pls)
     @FXML
     private Pane panePassword;
@@ -86,8 +90,35 @@ public class homeViewController implements Initializable {
         tags = new ArrayList<>();
         paneRegistro.setVisible(false);
         metodoTags();
+        if(RegistroController.getSize() > 0){
+            inicializarLista();
+        }
     }
 
+    private void inicializarLista(){
+        try{
+            Node[] nodes = new Node[RegistroController.getSize() + 1];
+
+            for(int i = 1; i < RegistroController.getSize() + 1; i++){
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/org/java/passwordmanager/visuals/itemList.fxml"));
+                nodes[i] = loader.load();
+                itemController controller = loader.getController();
+                controller.setItem(RegistroController.getRegistro(i).getSiteName(), RegistroController.getRegistro(i).getUrl(), RegistroController.getRegistro(i).getIcon());
+                final int h = i;
+                nodes[i].setOnMouseEntered(e -> {
+                    //Abrir ventana de password
+                    nodes[h].setStyle("-fx-background-color: #2c2c2c;");
+                });
+                nodes[i].setOnMouseExited(e -> {
+                    nodes[h].setStyle("-fx-background-color: #1c1c1c;");
+                });
+                vItems.getChildren().add(nodes[i]);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     @FXML
     private void abrirVentanaRegistro(){
         paneRegistro.setVisible(true);
@@ -155,6 +186,7 @@ public class homeViewController implements Initializable {
                 RegistroController.addRegistro(registro);
                 RegistroController.mostrarRegistros();
 
+                inicializarLista();
 
                 alertasController.showInformation("Guardado", "Registro guardado", "El registro se guardó correctamente");
                 //Limpiar campos
@@ -180,7 +212,7 @@ public class homeViewController implements Initializable {
         txtAdicional4.clear();
         txtAdicional5.clear();
         tags.clear();
-        Icon icon = new Icon("default", 32, 32, getClass().getResource("/org/java/passwordmanager/images/subImg.png").toExternalForm());
+        Icon icon = new Icon("default", 32, 32, getClass().getResource("/org/java/passwordmanager/images/subir.png").toExternalForm());
         igLogo.setImage(new Image(icon.getImagen()));
         tagsPane.getChildren().clear();
     }

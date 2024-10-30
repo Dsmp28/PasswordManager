@@ -25,4 +25,22 @@ public class Icon {
     public int getWidth() {
         return width;
     }
+
+    //Setters
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getImagen() {
+        return path;
+    }
 }

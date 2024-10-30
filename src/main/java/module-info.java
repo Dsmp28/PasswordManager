@@ -5,6 +5,7 @@ module org.java.passwordmanager {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
+    requires java.desktop;
 
     opens org.java.passwordmanager to javafx.fxml;
     exports org.java.passwordmanager;

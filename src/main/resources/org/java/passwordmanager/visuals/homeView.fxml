@@ -43,7 +43,7 @@
                      <children>
                         <Button fx:id="btnSubir" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#subirImagen" prefHeight="32.0" prefWidth="32.0" styleClass="btnSubir" textAlignment="CENTER">
                            <graphic>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="btnSubir">
+                              <ImageView fx:id="igLogo" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="btnSubir">
                                  <image>
                                     <Image url="@../images/subImg.png" />
                                  </image>

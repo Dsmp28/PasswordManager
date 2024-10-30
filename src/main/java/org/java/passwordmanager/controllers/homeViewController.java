@@ -14,7 +14,10 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.java.passwordmanager.HelloApplication;
+import org.java.passwordmanager.objectControllers.RegistroController;
+import org.java.passwordmanager.objects.CamposExtra;
 import org.java.passwordmanager.objects.Icon;
+import org.java.passwordmanager.objects.Registro;
 import org.java.passwordmanager.objects.Tag;
 
 import javax.imageio.ImageIO;
@@ -22,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -142,6 +146,14 @@ public class homeViewController implements Initializable {
                 String adicional5 = txtAdicional5.getText();
 
                 //Insertar en la lista global de registros
+                CamposExtra camposExtra = new CamposExtra(adicional1, adicional2, adicional3, adicional4, adicional5);
+                LocalDateTime creationDate = LocalDateTime.now(); // Por tiempo se pone aqui pero mejor en constructor de Registro
+                LocalDateTime updateDate = LocalDateTime.now(); // Por tiempo se pone aqui pero mejor en constructor de Registro
+                LocalDateTime expirationDate = LocalDateTime.now().plusDays(30); //Por defecto 30 días pero puede editarse despues - // Por tiempo se pone aqui pero mejor en constructor de Registro
+                Registro registro = new Registro(nombre, usuario, pass, url, notas, camposExtra, tags, creationDate, updateDate, expirationDate, icon);
+                RegistroController.addRegistro(registro);
+                RegistroController.mostrarRegistros();
+
 
                 alertasController.showInformation("Guardado", "Registro guardado", "El registro se guardó correctamente");
                 //Limpiar campos

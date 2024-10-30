@@ -85,10 +85,50 @@ public class homeViewController implements Initializable {
     //ESTO ES DEL PANE DE PASSWORD (pendiente, no hacer caso pls)
     @FXML
     private Pane panePassword;
+    @FXML
+    private Button btnAct;
+    @FXML
+    private Button btnSubirE;
+    @FXML
+    private ImageView igLogoE;
+
+    @FXML
+    private TextField txtNombreE;
+
+
+    @FXML
+    private TextField txtUsuarioE;
+
+    @FXML
+    private PasswordField txtPassE;
+
+    @FXML
+    private TextField txtURLE;
+    @FXML
+    private TextField txtNotasE;
+    @FXML
+    private TextField txtTagsE;
+    @FXML
+    private FlowPane tagsPaneE;
+
+    @FXML
+    private TextField txtAdicional1E;
+    @FXML
+    private TextField txtAdicional2E;
+    @FXML
+    private TextField txtAdicional3E;
+    @FXML
+    private TextField txtAdicional4E;
+    @FXML
+    private TextField txtAdicional5E;
+
+    @FXML
+    private VBox vBEdit;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tags = new ArrayList<>();
         paneRegistro.setVisible(false);
+        panePassword.setVisible(false);
         metodoTags();
         if(RegistroController.getSize() > 0){
             inicializarLista();
@@ -106,9 +146,31 @@ public class homeViewController implements Initializable {
                 itemController controller = loader.getController();
                 controller.setItem(RegistroController.getRegistro(i).getSiteName(), RegistroController.getRegistro(i).getUrl(), RegistroController.getRegistro(i).getIcon());
                 final int h = i;
+                Registro actual = RegistroController.getRegistro(h);
                 nodes[i].setOnMouseEntered(e -> {
                     //Abrir ventana de password
                     nodes[h].setStyle("-fx-background-color: #2c2c2c;");
+                });
+                nodes[i].setOnMouseClicked(e -> {
+                    //DEBUG
+                    RegistroController.mostrarRegistros();
+                    //Abrir ventana de password
+                    panePassword.setVisible(true);
+                    vBEdit.setVisible(true);
+                    btnAct.setDisable(false);
+                    txtNombreE.setText(actual.getSiteName());
+                    txtUsuarioE.setText(actual.getUsername());
+                    txtPassE.setText(actual.getPassword());
+                    txtURLE.setText(actual.getUrl());
+                    txtNotasE.setText(actual.getNotes());
+                    List<Tag> tagsAux = new ArrayList<>(actual.getTags());
+                    cargarTagsPane(tagsAux);
+                    txtAdicional1E.setText(actual.getCamposExtra().getExtra1());
+                    txtAdicional2E.setText(actual.getCamposExtra().getExtra2());
+                    txtAdicional3E.setText(actual.getCamposExtra().getExtra3());
+                    txtAdicional4E.setText(actual.getCamposExtra().getExtra4());
+                    txtAdicional5E.setText(actual.getCamposExtra().getExtra5());
+                    igLogoE.setImage(new Image(actual.getIcon().getImagen()));
                 });
                 nodes[i].setOnMouseExited(e -> {
                     nodes[h].setStyle("-fx-background-color: #1c1c1c;");
@@ -122,18 +184,20 @@ public class homeViewController implements Initializable {
     @FXML
     private void abrirVentanaRegistro(){
         paneRegistro.setVisible(true);
+        panePassword.setVisible(false);
         //debug, verificar que los tags estén vacíos
         System.out.println(tags.size());
     }
 
-    private void metodoTags(){
+    private void metodoTags() {
         txtTags.setOnKeyPressed(e -> {
-            if(e.getCode().toString().equals("ENTER")){
-                tagButton(tagsPane, txtTags.getText());
+            if (e.getCode().toString().equals("ENTER") && !txtTags.getText().isEmpty()) {
+                tagButton(tagsPane, txtTags.getText().trim());
                 txtTags.clear();
             }
         });
     }
+
     Image image = new Image(getClass().getResource("/org/java/passwordmanager/images/borrar.png").toExternalForm());
     private void tagButton(FlowPane fPane, String tag){
         ImageView close = new ImageView(image);
@@ -141,22 +205,21 @@ public class homeViewController implements Initializable {
         fPane.setVgap(5);
         close.setFitHeight(10);
         close.setFitWidth(10);
+
         Button result = new Button(tag, close);
         result.setGraphicTextGap(10);
         result.setPrefHeight(20);
         result.setStyle("-fx-background-color: #2c2c2c; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-text-fill: white;");
         result.setContentDisplay(javafx.scene.control.ContentDisplay.RIGHT);
+
         result.setOnAction(e -> {
             fPane.getChildren().remove(result);
             tags.remove(new Tag(tag));
         });
-        if(!txtTags.getText().isEmpty()){
-            fPane.getChildren().add(result);
-            tags.add(new Tag(tag));
-        }else{
-            //No se agrega el tag
-        }
+        tags.add(new Tag(tag));
+        fPane.getChildren().add(result);
     }
+
 
     @FXML
     private void guardarRegistro(){
@@ -182,7 +245,7 @@ public class homeViewController implements Initializable {
                 LocalDateTime updateDate = LocalDateTime.now(); // Por tiempo se pone aqui pero mejor en constructor de Registro
                 LocalDateTime expirationDate = LocalDateTime.now().plusDays(30); //Por defecto 30 días pero puede editarse despues - // Por tiempo se pone aqui pero mejor en constructor de Registro
 
-                Registro registro = new Registro(nombre, usuario, pass, url, notas, camposExtra, tags, creationDate, updateDate, expirationDate, icon);
+                Registro registro = new Registro(nombre, usuario, pass, url, notas, camposExtra, new ArrayList<>(tags), creationDate, updateDate, expirationDate, icon);
                 RegistroController.addRegistro(registro);
                 RegistroController.mostrarRegistros();
 
@@ -245,5 +308,35 @@ public class homeViewController implements Initializable {
             return false;
         }
         return true;
+    }
+    @FXML
+    private void activarCampos(){
+        txtNombreE.setDisable(false);
+        txtUsuarioE.setDisable(false);
+        txtPassE.setDisable(false);
+        txtURLE.setDisable(false);
+        txtNotasE.setDisable(false);
+        txtTagsE.setDisable(false);
+        tagsPaneE.setDisable(false);
+        txtAdicional1E.setDisable(false);
+        txtAdicional2E.setDisable(false);
+        txtAdicional3E.setDisable(false);
+        txtAdicional4E.setDisable(false);
+        txtAdicional5E.setDisable(false);
+        btnSubirE.setDisable(false);
+    }
+    @FXML
+    private void editarRegistro(){
+
+    }
+    @FXML
+    private void copiarPass(){
+
+    }
+    private void cargarTagsPane(List<Tag> tagsAux) {
+        tagsPaneE.getChildren().clear();
+        for (Tag tag : tagsAux) {
+            tagButton(tagsPaneE, tag.getName());
+        }
     }
 }

@@ -150,6 +150,7 @@ public class homeViewController implements Initializable {
                 LocalDateTime creationDate = LocalDateTime.now(); // Por tiempo se pone aqui pero mejor en constructor de Registro
                 LocalDateTime updateDate = LocalDateTime.now(); // Por tiempo se pone aqui pero mejor en constructor de Registro
                 LocalDateTime expirationDate = LocalDateTime.now().plusDays(30); //Por defecto 30 días pero puede editarse despues - // Por tiempo se pone aqui pero mejor en constructor de Registro
+
                 Registro registro = new Registro(nombre, usuario, pass, url, notas, camposExtra, tags, creationDate, updateDate, expirationDate, icon);
                 RegistroController.addRegistro(registro);
                 RegistroController.mostrarRegistros();

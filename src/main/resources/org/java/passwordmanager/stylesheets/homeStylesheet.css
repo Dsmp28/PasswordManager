@@ -29,3 +29,9 @@
     -fx-fill: #ffffff;
     -fx-font-family: "Droid Sans";
 }
+.btnTrans{
+    -fx-background-color:transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Droid Sans";
+    -fx-font-weight: bold;
+}

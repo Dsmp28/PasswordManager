@@ -1,5 +1,7 @@
 package org.java.passwordmanager.objects;
 
+import javafx.scene.image.Image;
+
 public class Icon {
     private String name;
     private int height;
@@ -42,5 +44,9 @@ public class Icon {
 
     public String getImagen() {
         return path;
+    }
+
+    public Image getImage() {
+        return new Image(path);
     }
 }

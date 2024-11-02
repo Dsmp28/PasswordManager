@@ -1,7 +1,9 @@
 package org.java.passwordmanager.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -29,30 +31,42 @@ public class logInController {
     private void salir(){
         System.exit(0);
     }
+
     @FXML
-    private void registrarse(){
+    private void registrarse(ActionEvent event){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/signInView.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(fxmlLoader.load(), 740, 495));
             stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
+
+            // Cerrar la ventana actual
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+
         }catch(Exception e){
             e.printStackTrace();
         }
     }
     @FXML
-    private void iniciarSesion(){
-        //Validar usuario y contraseña
-        //Abrir ventana principal
-        try{
+    private void iniciarSesion(ActionEvent event){
+        // Validar usuario y contraseña
+        // Abrir ventana principal
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/lateralView.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(fxmlLoader.load(), 1040, 495));
             stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
-        }catch(Exception e){
+
+            // Cerrar la ventana actual
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

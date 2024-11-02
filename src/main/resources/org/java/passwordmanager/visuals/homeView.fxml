@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
@@ -39,7 +40,11 @@
          </cursor>
       </Button>
       <Line endX="100.0" layoutX="168.0" startX="100.0" startY="499.0" />
-      <VBox fx:id="vItems" layoutX="14.0" layoutY="50.0" prefHeight="435.0" prefWidth="240.0" />
+      <ScrollPane fitToWidth="true" layoutX="16.0" layoutY="53.0" prefHeight="435.0" prefWidth="238.0">
+         <content>
+            <VBox fx:id="vItems" prefHeight="435.0" prefWidth="240.0" />
+         </content>
+      </ScrollPane>
       <Pane fx:id="paneRegistro" layoutX="269.0" layoutY="6.0" prefHeight="494.0" prefWidth="607.0" visible="false">
          <children>
             <VBox alignment="CENTER" prefHeight="494.0" prefWidth="607.0">

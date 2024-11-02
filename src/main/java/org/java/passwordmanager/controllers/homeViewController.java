@@ -163,6 +163,7 @@ public class homeViewController implements Initializable {
     }
 
     private void inicializarLista(){
+        vItems.getChildren().clear();
         try{
             Node[] nodes = new Node[RegistroController.getSize() + 1];
 

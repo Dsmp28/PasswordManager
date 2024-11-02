@@ -37,6 +37,17 @@
     -fx-font-family: "Roboto Light";
     -fx-font-weight: bold;
 }
+.btnRegresar {
+    -fx-background-color:
+            #2aa0ed, /* Contorno azul */
+            #ffffff; /* Centro blanco */
+    -fx-background-radius: 28px, 28px; /* Radio externo para el contorno, interno para el centro */
+    -fx-text-fill: #000000;
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+}
+
 .btnSalir{
     -fx-background-color:transparent;
 }

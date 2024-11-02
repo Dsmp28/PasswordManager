@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="740.0" stylesheets="@../stylesheets/signInStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.signInController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="740.0" stylesheets="@../stylesheets/signInStylesheet.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.signInController">
    <children>
       <ImageView fitHeight="494.0" fitWidth="740.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -51,14 +46,24 @@
                         <PasswordField fx:id="txtPassword" styleClass="txtFieldSignIn" />
                         <Region prefHeight="20.0" prefWidth="343.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="Contraseña de encriptación" wrappingWidth="341.0537109375" />
-                        <Region prefHeight="7.0" prefWidth="343.0" />
                         <PasswordField fx:id="txtEncriptacion" styleClass="txtFieldSignIn" />
-                        <Region prefHeight="15.0" prefWidth="343.0" />
-                        <Button fx:id="btnIniciar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registrarse" prefHeight="30.0" prefWidth="98.0" styleClass="btnIniciar" text="Registrarse" textAlignment="CENTER">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
+                        <Region prefHeight="63.0" prefWidth="343.0" />
+                        <HBox prefHeight="100.0" prefWidth="111.0">
+                           <children>
+                              <Region prefHeight="64.0" prefWidth="38.0" />
+                              <Button fx:id="btnRegresar" mnemonicParsing="false" onAction="#regresar" prefHeight="30.0" prefWidth="98.0" styleClass="btnRegresar" text="Regresar" textAlignment="CENTER">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                              </Button>
+                              <Region prefHeight="64.0" prefWidth="56.0" />
+                              <Button fx:id="btnIniciar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registrarse" prefHeight="30.0" prefWidth="98.0" styleClass="btnIniciar" text="Registrarse" textAlignment="CENTER">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>

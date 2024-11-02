@@ -10,6 +10,12 @@
     -fx-font-weight: bold;
     -fx-font-family: "Roboto Light";
 }
+.txtArchivo{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-font-family: "Roboto Light";
+}
 .txtSignIn{
     -fx-text-fill: #ffffff;
     -fx-fill: #ffffff;

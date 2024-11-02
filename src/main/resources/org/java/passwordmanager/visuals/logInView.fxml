@@ -3,10 +3,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
@@ -40,18 +42,23 @@
                         <Image url="@../images/candado.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btnRegistrarse" mnemonicParsing="false" onAction="#registrarse" prefHeight="10.0" prefWidth="154.0" styleClass="btnSalir">
-                     <graphic>
-                        <Text fx:id="txtRegistrarse" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="¿Primera vez? Regístrate" underline="true">
+                  <HBox alignment="CENTER" prefHeight="18.0" prefWidth="342.0">
+                     <children>
+                        <Button fx:id="btnImportar" mnemonicParsing="false" onAction="#importar" prefHeight="24.0" prefWidth="106.0" styleClass="btnSalir">
+                           <graphic>
+                              <Text fx:id="txtImportar" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="Importar existente" underline="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Text>
+                           </graphic>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
-                        </Text>
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
+                        </Button>
+                        <Label fx:id="lbArchivo" prefHeight="18.0" prefWidth="157.0" styleClass="txtArchivo" text="Ningún archivo seleccionado" />
+                     </children>
+                  </HBox>
                   <VBox alignment="CENTER" prefHeight="174.0" prefWidth="343.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="Usuario" wrappingWidth="342.39453125" />
@@ -63,6 +70,19 @@
                         <PasswordField fx:id="txtPassword" styleClass="txtFieldSignIn" />
                         <Region prefHeight="20.0" prefWidth="343.0" />
                         <Button fx:id="btnIniciar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="30.0" prefWidth="98.0" styleClass="btnIniciar" text="Ingresar" textAlignment="CENTER">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Region prefHeight="14.0" prefWidth="342.0" />
+                        <Button fx:id="btnRegistrarse" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registrarse" prefHeight="24.0" prefWidth="78.0" styleClass="btnSalir">
+                           <graphic>
+                              <Text fx:id="txtRegistrarse" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="¿No tienes una cuenta?  Regístrate" underline="true" wrappingWidth="195.10977935791016">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Text>
+                           </graphic>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

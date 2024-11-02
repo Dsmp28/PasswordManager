@@ -21,6 +21,7 @@ import org.java.passwordmanager.objects.CamposExtra;
 import org.java.passwordmanager.objects.Icon;
 import org.java.passwordmanager.objects.Registro;
 import org.java.passwordmanager.objects.Tag;
+import javafx.scene.input.KeyCode;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -159,6 +160,20 @@ public class homeViewController implements Initializable {
                 cbTags.setVisible(false);
             }
         });
+
+        //Busqueda con Enter
+        txtBuscar.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                SearchByField();
+            }
+        });
+
+        dpBuscar.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                SearchByField();
+            }
+        });
+
         //AGREGAR MÉTODO PARA INICIALIZAR EL CBTAGS DE BÚSQUEDA
     }
 
@@ -383,4 +398,105 @@ public class homeViewController implements Initializable {
         dpBuscar.setValue(null);
         cbTags.setValue(null);
     }
+
+    private void SearchByField(){
+        String valor = txtBuscar.getText();
+        String campo = cbBusqueda.getValue();
+        List<Registro> resultados = new ArrayList<>();
+
+        switch (campo) {
+            case "Nombre":
+              resultados = RegistroController.searchBySiteName(valor);
+              coincidenciasEncontrada(resultados);
+              break;
+            case "Usuario":
+                resultados = RegistroController.searchByUsername(valor);
+                coincidenciasEncontrada(resultados);
+                break;
+            case "URL":
+                resultados = RegistroController.searchByURL(valor);
+                coincidenciasEncontrada(resultados);
+            case "Notas":
+                resultados = RegistroController.searchByNotes(valor);
+                coincidenciasEncontrada(resultados);
+                break;
+            case "Campos extra":
+                resultados = RegistroController.searchByExtraField(valor);
+                coincidenciasEncontrada(resultados);
+                break;
+            case "Fecha de creación":
+                resultados = RegistroController.searchByCreationDate(dpBuscar.getValue());
+                coincidenciasEncontrada(resultados);
+                break;
+            case "Fecha de actualización":
+                resultados = RegistroController.searchByUpdateDate(dpBuscar.getValue());
+                coincidenciasEncontrada(resultados);
+                break;
+            case "Fecha de expiración":
+                resultados = RegistroController.searchByExpirationDate(dpBuscar.getValue());
+                coincidenciasEncontrada(resultados);
+                break;
+            case "Tags":
+                //RegistroController.searchByTags(cbTags.getValue());
+                break;
+            default:
+                inicializarLista(); //Resetea la lista a la original
+                break;
+        }
+    }
+
+    private void coincidenciasEncontrada(List<Registro> resultados){
+        resetCampoBusqueda();
+        cbBusqueda.setValue("");
+        RegistroController.mostrarRegistrosEncontrados(resultados);
+        inicializarListaRegistrosEncontrados(resultados);
+    }
+
+    private void inicializarListaRegistrosEncontrados(List<Registro> registros) {
+        vItems.getChildren().clear();
+        try {
+            Node[] nodes = new Node[registros.size()];
+
+            for (int i = 0; i < registros.size(); i++) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/org/java/passwordmanager/visuals/itemList.fxml"));
+                nodes[i] = loader.load();
+
+                itemController controller = loader.getController();
+                Registro actual = registros.get(i);
+                controller.setItem(actual.getSiteName(), actual.getUrl(), actual.getIcon());
+
+                final int h = i;
+                nodes[i].setOnMouseEntered(e -> {
+                    nodes[h].setStyle("-fx-background-color: #2c2c2c;");
+                });
+                nodes[i].setOnMouseClicked(e -> {
+                    panePassword.setVisible(true);
+                    vBEdit.setVisible(true);
+                    btnAct.setDisable(false);
+                    txtNombreE.setText(actual.getSiteName());
+                    txtUsuarioE.setText(actual.getUsername());
+                    txtPassE.setText(actual.getPassword());
+                    txtURLE.setText(actual.getUrl());
+                    txtNotasE.setText(actual.getNotes());
+                    List<Tag> tagsAux = new ArrayList<>(actual.getTags());
+                    cargarTagsPane(tagsAux);
+                    txtAdicional1E.setText(actual.getCamposExtra().getExtra1());
+                    txtAdicional2E.setText(actual.getCamposExtra().getExtra2());
+                    txtAdicional3E.setText(actual.getCamposExtra().getExtra3());
+                    txtAdicional4E.setText(actual.getCamposExtra().getExtra4());
+                    txtAdicional5E.setText(actual.getCamposExtra().getExtra5());
+                    igLogoE.setImage(new Image(actual.getIcon().getImagen()));
+                });
+                nodes[i].setOnMouseExited(e -> {
+                    nodes[h].setStyle("-fx-background-color: #1c1c1c;");
+                });
+
+                vItems.getChildren().add(nodes[i]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

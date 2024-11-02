@@ -1,5 +1,7 @@
 package org.java.passwordmanager.objects;
 
+import java.util.List;
+
 public class CamposExtra {
     //Campos extra
     private String extra1;
@@ -21,6 +23,7 @@ public class CamposExtra {
     public String getExtra3() {return extra3;}
     public String getExtra4() {return extra4;}
     public String getExtra5() {return extra5;}
+    public List<String> getExtras() {return List.of(extra1, extra2, extra3, extra4, extra5);}
 
     @Override
     public String toString() {

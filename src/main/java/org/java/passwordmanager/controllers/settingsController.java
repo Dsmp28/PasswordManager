@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -29,6 +28,12 @@ public class settingsController implements Initializable {
     private PasswordField txtNueva;
 
     private Stage stage;
+    private InactividadController inactividadController;
+
+    public void setInactividadController(InactividadController inactividadController){
+        this.inactividadController = inactividadController;
+    }
+
 
     public void setStage(Stage stage){
         this.stage = stage;
@@ -36,6 +41,7 @@ public class settingsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cargarComboBox();
+        txtInactividad.setText("60");
     }
 
     private void cargarComboBox(){
@@ -47,8 +53,19 @@ public class settingsController implements Initializable {
         cbExpiracion.getItems().add("60 días");
     }
     @FXML
-    private void guardarCambios(){
-        //Guardar configuraciones
+    private void guardarCambios() {
+        try {
+            int nuevoTiempo = Integer.parseInt(txtInactividad.getText()) * 1000; // Convertir a milisegundos
+
+            if (nuevoTiempo > 0 && inactividadController != null) {
+                inactividadController.setTiempoInactividad(nuevoTiempo); // Actualizar el tiempo de inactividad
+            }
+            stage.close(); // Cierra la ventana de configuración
+        } catch (NumberFormatException e) {
+            // Muestra un mensaje en caso de error en el formato
+            alertasController.showError("Error", "Formato Inválido", "Ingrese un valor numérico válido para el tiempo de inactividad.");
+            txtInactividad.setText("60"); // Restablecer a 60 si hay error
+        }
     }
     @FXML
     private void salir(){

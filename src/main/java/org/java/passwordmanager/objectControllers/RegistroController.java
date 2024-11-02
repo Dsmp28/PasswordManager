@@ -6,15 +6,13 @@ import org.java.passwordmanager.objects.Registro;
 import org.java.passwordmanager.objects.Tag;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.time.LocalDate;
 
 public class RegistroController {
 
     public static Map<Integer, Registro> registros = new HashMap<>(); // <id, Registro>
+    public static Set<String> tags = new HashSet<>();
 
 
     public static void addRegistro(Registro registro) {
@@ -168,6 +166,20 @@ public class RegistroController {
         return registrosEncontrados;
     }
 
+    public static List<Registro> searchByTag(String tag) {
+        List<Registro> registrosEncontrados = new ArrayList<>();
+
+        for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
+            for (Tag t : entry.getValue().getTags()) {
+                if (t.getName().equals(tag)) {
+                    registrosEncontrados.add(entry.getValue());
+                    break;
+                }
+            }
+        }
+        return registrosEncontrados;
+    }
+
 
 
     public static void mostrarRegistrosEncontrados(List<Registro> registrosEncontrados) {
@@ -176,6 +188,10 @@ public class RegistroController {
         }
         System.out.println("\n");
     }
+
+    //////////////////////////////////// TAGS /////////////////////////////////////////////
+    public static Set<String> getTags() {return tags;}
+    public static void addTag(String tag) {tags.add(tag);}
 
     /////////////////////////////////////////////////////////////////////////////////////////
 

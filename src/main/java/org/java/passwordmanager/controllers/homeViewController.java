@@ -3,9 +3,7 @@ package org.java.passwordmanager.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -38,6 +36,13 @@ public class homeViewController implements Initializable {
     private List<Tag> tags;
     @FXML
     private TextField txtBuscar;
+    @FXML
+    private ComboBox<String> cbBusqueda;
+    @FXML
+    private DatePicker dpBuscar;
+    @FXML
+    private ComboBox<Tag> cbTags;
+
 
     @FXML
     private Button btnNuevo;
@@ -137,6 +142,24 @@ public class homeViewController implements Initializable {
         if(RegistroController.getSize() > 0){
             inicializarLista();
         }
+        cargarCbBusqueda();
+        cbBusqueda.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            resetCampoBusqueda();
+            if(newValue.equals("Tags")){
+                cbTags.setVisible(true);
+                txtBuscar.setVisible(false);
+                dpBuscar.setVisible(false);
+            }else if(newValue.equals("Fecha de creación") || newValue.equals("Fecha de actualización") || newValue.equals("Fecha de expiración")){
+                dpBuscar.setVisible(true);
+                txtBuscar.setVisible(false);
+                cbTags.setVisible(false);
+            }else{
+                txtBuscar.setVisible(true);
+                dpBuscar.setVisible(false);
+                cbTags.setVisible(false);
+            }
+        });
+        //AGREGAR MÉTODO PARA INICIALIZAR EL CBTAGS DE BÚSQUEDA
     }
 
     private void inicializarLista(){
@@ -342,5 +365,21 @@ public class homeViewController implements Initializable {
         for (Tag tag : tagsAux) {
             tagButton(tagsPaneE, tag.getName());
         }
+    }
+    private void cargarCbBusqueda(){
+        cbBusqueda.getItems().add("Nombre");
+        cbBusqueda.getItems().add("Usuario");
+        cbBusqueda.getItems().add("URL");
+        cbBusqueda.getItems().add("Notas");
+        cbBusqueda.getItems().add("Campos extra");
+        cbBusqueda.getItems().add("Fecha de creación");
+        cbBusqueda.getItems().add("Fecha de actualización");
+        cbBusqueda.getItems().add("Fecha de expiración");
+        cbBusqueda.getItems().add("Tags");
+    }
+    private void resetCampoBusqueda(){
+        txtBuscar.clear();
+        dpBuscar.setValue(null);
+        cbTags.setValue(null);
     }
 }

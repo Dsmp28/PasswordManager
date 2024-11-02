@@ -5,12 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.java.passwordmanager.encryption.RSAEncryption;
 import org.java.passwordmanager.objects.User;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +55,53 @@ public class archivosController {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(desDataFile), desDataMap);
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar los datos DES", e);
+        }
+    }
+
+    public boolean isAlreadyDesKey() {
+        try {
+            File file = new File(desDataFile);
+            if (!file.exists()) {
+                return false;
+            }
+
+            Map<String, String> desDataMap = objectMapper.readValue(file, new TypeReference<Map<String, String>>() {});
+            String encryptedKey = desDataMap.get("encryptedKey");
+
+            return encryptedKey != null;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al verificar los datos DES", e);
+        }
+    }
+
+    public boolean isUserRegistered(String username){
+        try {
+            List<User> users = loadUsers();
+            for (User user : users) {
+                String decryptedUsername = rsaEnc.decrypt(user.getUsername());
+                if (decryptedUsername.equals(username)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al verificar los datos del usuario", e);
+        }
+    }
+
+    public User getUser(String username, String password) {
+        try {
+            List<User> users = loadUsers();
+            for (User user : users) {
+                String decryptedUsername = rsaEnc.decrypt(user.getUsername());
+                String decryptedPassword = rsaEnc.decrypt(user.getPassword());
+                if (decryptedUsername.equals(username) && decryptedPassword.equals(password)) {
+                    return user;
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los datos del usuario", e);
         }
     }
 

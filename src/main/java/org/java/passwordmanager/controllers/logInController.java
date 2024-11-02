@@ -10,6 +10,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.java.passwordmanager.notifications.NotificationService;
+import org.java.passwordmanager.notifications.Notifier;
+import org.java.passwordmanager.objects.User;
 
 public class logInController {
     @FXML
@@ -26,6 +29,8 @@ public class logInController {
 
     @FXML
     private Button btnRegistrarse;
+
+    private final Notifier notifier = new NotificationService();
 
     @FXML
     private void salir(){
@@ -51,7 +56,13 @@ public class logInController {
     }
     @FXML
     private void iniciarSesion(){
-        //Validar usuario y contraseña
+        archivosController archivosController = new archivosController();
+        User user = archivosController.getUser(txtUsuario.getText(), txtPassword.getText());
+
+        if(user == null){
+            notifier.showError("Usuario o contraseña incorrectos, por favor intente de nuevo");
+            return;
+        }
         //Abrir ventana principal
         Stage stageActual = (Stage) btnIniciar.getScene().getWindow(); // Obtiene el Stage actual
         stageActual.close(); // Cierra la ventana actual

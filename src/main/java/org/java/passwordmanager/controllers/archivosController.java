@@ -2,20 +2,20 @@ package org.java.passwordmanager.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.java.passwordmanager.encryption.DESEncryption;
 import org.java.passwordmanager.encryption.RSAEncryption;
 import org.java.passwordmanager.objects.User;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Files;
+import java.util.*;
 
 public class archivosController {
     private RSAEncryption rsaEnc;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final String desDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/desData.json";
     private static final String userDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/userData.json";
+    private static final String encryptedDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/encryptedData.json";
 
     public archivosController() {
         try {
@@ -50,6 +50,32 @@ public class archivosController {
             // Crear un Map con la clave encriptada
             Map<String, String> desDataMap = new HashMap<>();
             desDataMap.put("encryptedKey", encryptedData);
+
+            // Guardar en JSON usando el Map
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(desDataFile), desDataMap);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al guardar los datos DES", e);
+        }
+    }
+
+    public void updateDesPassword(String newPassword) {
+        try {
+            DESEncryption desEnc = new DESEncryption(getDesPassword());
+
+            File file = new File(encryptedDataFile);
+            String oldEncryptedData = objectMapper.readValue(file, new TypeReference<String>() {});
+
+            byte[] decryptedData = desEnc.decrypt(oldEncryptedData.getBytes());
+
+            desEnc.setKey(newPassword);
+
+            byte[] newEncryptedData = desEnc.encrypt(Arrays.toString(decryptedData));
+
+            Files.write(file.toPath(), newEncryptedData);
+
+            // Crear un Map con la clave encriptada
+            Map<String, String> desDataMap = new HashMap<>();
+            desDataMap.put("encryptedKey", rsaEnc.encrypt(newPassword));
 
             // Guardar en JSON usando el Map
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(desDataFile), desDataMap);
@@ -102,6 +128,17 @@ public class archivosController {
             return null;
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener los datos del usuario", e);
+        }
+    }
+
+    public String getDesPassword() {
+        try {
+            File file = new File(desDataFile);
+            Map<String, String> desDataMap = objectMapper.readValue(file, new TypeReference<Map<String, String>>() {});
+            String encryptedKey = desDataMap.get("encryptedKey");
+            return rsaEnc.decrypt(encryptedKey);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener la clave DES", e);
         }
     }
 

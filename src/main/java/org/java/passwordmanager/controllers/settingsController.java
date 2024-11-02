@@ -7,6 +7,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.java.passwordmanager.notifications.NotificationService;
+import org.java.passwordmanager.notifications.Notifier;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +29,7 @@ public class settingsController implements Initializable {
     @FXML
     private PasswordField txtNueva;
 
+    private final Notifier notifier = new NotificationService();
     private Stage stage;
     private InactividadController inactividadController;
 
@@ -55,6 +58,16 @@ public class settingsController implements Initializable {
     @FXML
     private void guardarCambios() {
         try {
+            archivosController archivosController = new archivosController();
+            String oldPassword = txtAntigua.getText();
+            String newPassword = txtNueva.getText();
+
+            if (!oldPassword.isEmpty() && !newPassword.isEmpty() && oldPassword.equals(archivosController.getDesPassword())) {
+                archivosController.updateDesPassword(newPassword);
+            } else if (!oldPassword.isEmpty() && !newPassword.isEmpty()) {
+                notifier.showError("La contraseña antigua es incorrecta.");
+                return;
+            }
             int nuevoTiempo = Integer.parseInt(txtInactividad.getText()) * 1000; // Convertir a milisegundos
 
             if (nuevoTiempo > 0 && inactividadController != null) {
@@ -63,7 +76,7 @@ public class settingsController implements Initializable {
             stage.close(); // Cierra la ventana de configuración
         } catch (NumberFormatException e) {
             // Muestra un mensaje en caso de error en el formato
-            alertasController.showError("Error", "Formato Inválido", "Ingrese un valor numérico válido para el tiempo de inactividad.");
+            notifier.showError("El tiempo de inactividad debe ser un número entero.");
             txtInactividad.setText("60"); // Restablecer a 60 si hay error
         }
     }

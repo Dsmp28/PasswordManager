@@ -32,7 +32,7 @@ public class DESEncryption {
         return removePkcs7Padding(decryptedData); // Return raw decrypted bytes
     }
 
-    private void setKey(String key) {
+    public void setKey(String key) {
         byte[] keyBytes = Arrays.copyOf(key.getBytes(StandardCharsets.UTF_8), 8); // Asegura clave de 8 bytes para DES
         this.desKey = new SecretKeySpec(keyBytes, DES_ALGORITHM);
     }

@@ -16,6 +16,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import org.java.passwordmanager.HelloApplication;
+import org.java.passwordmanager.notifications.NotificationService;
+import org.java.passwordmanager.notifications.Notifier;
 import org.java.passwordmanager.objectControllers.RegistroController;
 import org.java.passwordmanager.objects.CamposExtra;
 import org.java.passwordmanager.objects.Icon;
@@ -121,9 +123,11 @@ public class homeViewController implements Initializable {
     private TextField txtAdicional4E;
     @FXML
     private TextField txtAdicional5E;
-
     @FXML
     private VBox vBEdit;
+
+    private final Notifier notifier = new NotificationService();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tags = new ArrayList<>();
@@ -251,11 +255,11 @@ public class homeViewController implements Initializable {
 
                 inicializarLista();
 
-                alertasController.showInformation("Guardado", "Registro guardado", "El registro se guardó correctamente");
+                notifier.showSuccess("Registro guardado correctamente");
                 //Limpiar campos
                 limpiarCampos();
             }catch (Exception e){
-               alertasController.showError("Error", "Error al guardar", "Ocurrió un error al guardar el registro");
+               notifier.showError("Error al guardar registro");
             }
         }
         //Cerrar ventana
@@ -295,16 +299,16 @@ public class homeViewController implements Initializable {
                 igLogo.setImage(new Image(file.toURI().toString()));
 
             }catch (Exception e){
-                alertasController.showError("Error", "Error al subir imagen", "Ocurrió un error al subir la imagen");
+                notifier.showError("Error al subir imagen");
             }
         }else{
-            alertasController.showError("Error", "Error al subir imagen", "No se seleccionó ninguna imagen");
+            notifier.showError("Error al subir imagen");
         }
     }
 
     private boolean verificarCamposObligatorios(){
         if(txtNombre.getText().isEmpty() || txtUsuario.getText().isEmpty() || txtPass.getText().isEmpty() || txtURL.getText().isEmpty() || txtNotas.getText().isEmpty()){
-            alertasController.showError("Error", "Campos obligatorios", "Por favor llene todos los campos obligatorios");
+            notifier.showError("Por favor llene todos los campos obligatorios");
             return false;
         }
         return true;

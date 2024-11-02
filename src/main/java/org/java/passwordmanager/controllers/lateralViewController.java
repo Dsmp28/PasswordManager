@@ -20,7 +20,7 @@ public class lateralViewController implements Initializable {
     @FXML
     private Button btnInicio;
     @FXML
-    private Button btnGestor;
+    private Button btnImportExport;
     @FXML
     private Button btnAjustes;
     @FXML
@@ -66,7 +66,7 @@ public class lateralViewController implements Initializable {
     }
     private void reiniciarEstilos(){
         btnInicio.setStyle("-fx-background-color: #2c2c2c");
-        btnGestor.setStyle("-fx-background-color: #2c2c2c");
+        btnImportExport.setStyle("-fx-background-color: #2c2c2c");
         btnAjustes.setStyle("-fx-background-color: #2c2c2c");
     }
 
@@ -75,8 +75,28 @@ public class lateralViewController implements Initializable {
         activeButton(btnInicio, "homeView.fxml");
     }
     @FXML
-    public void btnGestor(){
-        activeButton(btnGestor, "passwordsView.fxml");
+    public void btnImportExport(){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/importExportView.fxml"));
+            Parent root = loader.load();
+            Stage emergente = new Stage();
+            emergente.initModality(Modality.APPLICATION_MODAL);
+            emergente.initStyle(StageStyle.UNDECORATED);
+            emergente.setResizable(false);
+            emergente.setMaximized(false);
+            emergente.setTitle("Importar/Exportar");
+            //Añadir bien esto, pls
+//            if (inactividadController != null) {
+//                settingsController controller = loader.getController();
+//                controller.setInactividadController(inactividadController);
+//            }
+            emergente.setScene(new Scene(root));
+            importExportController controller = loader.getController();
+            controller.setStage(emergente);
+            emergente.showAndWait();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     @FXML
     public void btnAjustes(){

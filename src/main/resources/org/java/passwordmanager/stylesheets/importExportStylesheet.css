@@ -1,0 +1,25 @@
+.paneBackground{
+    -fx-background-color: #1F1F1F;
+}
+.txtTitulo{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Roboto Light";
+}
+.btnSalir{
+    -fx-background-color:transparent;
+}
+.txtTitCampo{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto Light";
+}
+.btnAccion{
+    -fx-background-color: #333333;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Droid Sans";
+    -fx-font-weight: bold;
+}

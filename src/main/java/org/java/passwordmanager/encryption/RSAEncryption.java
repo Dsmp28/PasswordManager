@@ -43,7 +43,7 @@ public class RSAEncryption {
 
     public String encrypt(String message) throws Exception {
         byte[] messageToBytes = message.getBytes();
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] encryptedBytes = cipher.doFinal(messageToBytes);
         return encode(encryptedBytes);
@@ -51,11 +51,21 @@ public class RSAEncryption {
 
     public String decrypt(String encryptedMessage) throws Exception {
         byte[] encryptedBytes = decode(encryptedMessage);
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         byte[] decryptedMessage = cipher.doFinal(encryptedBytes);
-        return new String(decryptedMessage, "UTF8");
+
+        // Remueve los bytes nulos iniciales
+        int startIndex = 0;
+        while (startIndex < decryptedMessage.length && decryptedMessage[startIndex] == 0) {
+            startIndex++;
+        }
+        byte[] trimmedMessage = new byte[decryptedMessage.length - startIndex];
+        System.arraycopy(decryptedMessage, startIndex, trimmedMessage, 0, trimmedMessage.length);
+
+        return new String(trimmedMessage, "UTF8");
     }
+
 
     public PrivateKey getPrivateKey() {
         return privateKey;

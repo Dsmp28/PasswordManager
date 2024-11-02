@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.java.passwordmanager.notifications.NotificationService;
 import org.java.passwordmanager.notifications.Notifier;
-import org.java.passwordmanager.objects.User;
 
 public class signInController {
     @FXML
@@ -43,7 +42,62 @@ public class signInController {
 
     @FXML
     private void registrarse() {
+        try {
+            if (!validarCampos()) return;
+
+            archivosController archivosController = new archivosController();
+            String username = txtUsuario.getText();
+            String password = txtPassword.getText();
+            String encriptacion = txtEncriptacion.getText();
+
+            if (archivosController.isUserRegistered(username)) {
+                notifier.showError("El usuario ya está registrado, por favor escriba otro nombre de usuario");
+                return;
+            }
+
+            if (archivosController.isAlreadyDesKey() && !confirmarSobreescritura()) return;
+
+            archivosController.saveUserData(username, password);
+            archivosController.saveDesData(encriptacion);
+            notifier.showSuccess("Usuario y clave de encriptacion registrados correctamente");
+            limpiarCampos();
+
+        } catch (Exception e) {
+            notifier.showError("Ocurrió un error al registrar el usuario");
+        }
     }
+
+    // Método para validar campos obligatorios y longitud de clave de encriptación
+    private boolean validarCampos() {
+        String username = txtUsuario.getText();
+        String password = txtPassword.getText();
+        String encriptacion = txtEncriptacion.getText();
+
+        if (username.isEmpty() || password.isEmpty() || encriptacion.isEmpty()) {
+            notifier.showError("Por favor llene todos los campos");
+            return false;
+        }
+
+        if (encriptacion.length() != 8) {
+            notifier.showError("La clave de encriptación debe tener 8 caracteres, por favor intente de nuevo");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Método para confirmar si se debe sobreescribir la clave de encriptación
+    private boolean confirmarSobreescritura() {
+        return notifier.showDecision("Ya existe una clave de encriptación, ¿desea sobreescribirla (si elige cancelar no se guardara su usuario)?");
+    }
+
+    // Método para limpiar los campos de entrada
+    private void limpiarCampos() {
+        txtUsuario.clear();
+        txtPassword.clear();
+        txtEncriptacion.clear();
+    }
+
 
     @FXML
     private void regresar(ActionEvent event){

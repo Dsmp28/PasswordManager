@@ -45,14 +45,27 @@ public class logInController {
     private void iniciarSesion(){
         //Validar usuario y contraseña
         //Abrir ventana principal
-        try{
+        Stage stageActual = (Stage) btnIniciar.getScene().getWindow(); // Obtiene el Stage actual
+        stageActual.close(); // Cierra la ventana actual
+
+        // Abrir la ventana principal
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/lateralView.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(fxmlLoader.load(), 1040, 495));
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.show();
-        }catch(Exception e){
+            Stage nuevaVentana = new Stage();
+            nuevaVentana.setScene(new Scene(fxmlLoader.load(), 1040, 495));
+            nuevaVentana.initStyle(StageStyle.UNDECORATED);
+
+            // Inicializar el controlador de inactividad
+            InactividadController inactividadController = new InactividadController(60000, nuevaVentana); // 1 minuto por defecto
+
+            // Pasar la instancia de InactividadController al lateralViewController
+            lateralViewController controller = fxmlLoader.getController();
+            controller.setInactividadController(inactividadController); // Establece el controlador de inactividad
+
+            nuevaVentana.show();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }

@@ -3,7 +3,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
@@ -17,7 +20,10 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="875.0" styleClass="paneBackground" stylesheets="@../stylesheets/homeStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.homeViewController">
    <children>
-      <TextField fx:id="txtBuscar" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="203.0" promptText="Buscar por app" styleClass="textFieldBackground" />
+      <DatePicker fx:id="dpBuscar" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="102.0" styleClass="txtFieldCampo" visible="false" />
+      <ComboBox fx:id="cbTags" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="102.0" styleClass="cbCampo" visible="false" />
+      <TextField fx:id="txtBuscar" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="102.0" promptText="Buscar por..." styleClass="textFieldBackground" />
+      <ComboBox fx:id="cbBusqueda" layoutX="122.0" layoutY="14.0" prefHeight="25.0" prefWidth="95.0" styleClass="cbCampo" />
       <Button fx:id="btnNuevo" layoutX="224.0" layoutY="14.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" prefHeight="25.0" prefWidth="27.0" styleClass="btnAnadir">
          <graphic>
             <ImageView fx:id="" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -34,7 +40,11 @@
          </cursor>
       </Button>
       <Line endX="100.0" layoutX="168.0" startX="100.0" startY="499.0" />
-      <VBox fx:id="vItems" layoutX="14.0" layoutY="50.0" prefHeight="435.0" prefWidth="240.0" />
+      <ScrollPane fitToWidth="true" layoutX="16.0" layoutY="53.0" prefHeight="435.0" prefWidth="238.0">
+         <content>
+            <VBox fx:id="vItems" prefHeight="435.0" prefWidth="240.0" />
+         </content>
+      </ScrollPane>
       <Pane fx:id="paneRegistro" layoutX="269.0" layoutY="6.0" prefHeight="494.0" prefWidth="607.0" visible="false">
          <children>
             <VBox alignment="CENTER" prefHeight="494.0" prefWidth="607.0">

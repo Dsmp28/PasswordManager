@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -23,6 +24,11 @@ public class logInController {
 
     @FXML
     private PasswordField txtPassword;
+
+    @FXML
+    private Button btnImportar;
+    @FXML
+    private Label lblArchivo;
 
     @FXML
     private Button btnSalir;
@@ -53,6 +59,10 @@ public class logInController {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    @FXML
+    private void importar(){
+        //Subir archivo, extraer el nombre y colocarlo en el label lblArchivo con la etiqueta setText
     }
     @FXML
     private void iniciarSesion(){

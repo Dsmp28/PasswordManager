@@ -6,6 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,9 +28,21 @@ public class lateralViewController implements Initializable {
 
     @FXML
     private StackPane contentArea;
+    private InactividadController inactividadController;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         activeButton(btnInicio, "homeView.fxml");
+        configurarEventosDeActividad();
+
+
+    }
+    public void setInactividadController(InactividadController inactividadController) {
+        this.inactividadController = inactividadController; //
+    }
+    private void configurarEventosDeActividad() {
+        // Agregar filtros de eventos para detectar actividad del mouse y teclado
+        contentArea.addEventFilter(MouseEvent.MOUSE_MOVED, event -> inactividadController.setTiempoInactividad(inactividadController.getTiempoInactividad()));
+        contentArea.addEventFilter(KeyEvent.KEY_PRESSED, event -> inactividadController.setTiempoInactividad(inactividadController.getTiempoInactividad()));
     }
     @FXML
     private void activeButton(Button activo, String fxml){
@@ -75,6 +89,10 @@ public class lateralViewController implements Initializable {
             emergente.setResizable(false);
             emergente.setMaximized(false);
             emergente.setTitle("Ajustes");
+            if (inactividadController != null) {
+                settingsController controller = loader.getController();
+                controller.setInactividadController(inactividadController);
+            }
             emergente.setScene(new Scene(root));
             settingsController controller = loader.getController();
             controller.setStage(emergente);
@@ -84,10 +102,12 @@ public class lateralViewController implements Initializable {
         }
     }
     @FXML
+
     public void btnSalir(){
         salir();
     }
     private void salir(){
         System.exit(0); //Editar con una confirmación
     }
+
 }

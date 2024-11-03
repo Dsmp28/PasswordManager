@@ -39,13 +39,13 @@ public class logInController {
     private final Notifier notifier = new NotificationService();
 
     @FXML
-    private void salir(){
+    private void salir() {
         System.exit(0);
     }
 
     @FXML
-    private void registrarse(ActionEvent event){
-        try{
+    private void registrarse(ActionEvent event) {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/signInView.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(fxmlLoader.load(), 740, 495));
@@ -56,40 +56,42 @@ public class logInController {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.close();
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @FXML
-    private void importar(){
-        //Subir archivo, extraer el nombre y colocarlo en el label lblArchivo con la etiqueta setText
+    private void importar() {
+        // Subir archivo, extraer el nombre y colocarlo en el label lblArchivo con la etiqueta setText
     }
+
     @FXML
-    private void iniciarSesion(){
+    private void iniciarSesion() {
         archivosController archivosController = new archivosController();
         User user = archivosController.getUser(txtUsuario.getText(), txtPassword.getText());
 
-        if(user == null){
+        if(user == null) {
             notifier.showError("Usuario o contraseña incorrectos, por favor intente de nuevo");
             return;
         }
-        //Abrir ventana principal
-        Stage stageActual = (Stage) btnIniciar.getScene().getWindow(); // Obtiene el Stage actual
-        stageActual.close(); // Cierra la ventana actual
 
-        // Abrir la ventana principal
+        Stage stageActual = (Stage) btnIniciar.getScene().getWindow();
+        stageActual.close();
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/lateralView.fxml"));
             Stage nuevaVentana = new Stage();
             nuevaVentana.setScene(new Scene(fxmlLoader.load(), 1040, 495));
             nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-            // Inicializar el controlador de inactividad
-            InactividadController inactividadController = new InactividadController(60000, nuevaVentana); // 1 minuto por defecto
+            // Inicializar controladores de inactividad y portapapeles
+            InactividadController inactividadController = new InactividadController(60000, nuevaVentana);
+            PortapapelesController portapapelesController = new PortapapelesController(30000);
 
-            // Pasar la instancia de InactividadController al lateralViewController
             lateralViewController controller = fxmlLoader.getController();
-            controller.setInactividadController(inactividadController); // Establece el controlador de inactividad
+            controller.setInactividadController(inactividadController);
+            controller.setPortapapelesController(portapapelesController);
 
             nuevaVentana.show();
         } catch (Exception e) {
@@ -98,3 +100,4 @@ public class logInController {
     }
 
 }
+

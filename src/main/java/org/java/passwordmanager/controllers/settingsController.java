@@ -31,6 +31,11 @@ public class settingsController implements Initializable {
 
     private final Notifier notifier = new NotificationService();
     private Stage stage;
+    private PortapapelesController portapapelesController;
+
+    public void setPortapapelesController(PortapapelesController portapapelesController) {
+        this.portapapelesController = portapapelesController;
+    }
     private InactividadController inactividadController;
 
     public void setInactividadController(InactividadController inactividadController){
@@ -45,6 +50,7 @@ public class settingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cargarComboBox();
         txtInactividad.setText("60");
+        txtPortapapeles.setText("30");
     }
 
     private void cargarComboBox(){
@@ -68,18 +74,28 @@ public class settingsController implements Initializable {
                 notifier.showError("La contraseña antigua es incorrecta.");
                 return;
             }
-            int nuevoTiempo = Integer.parseInt(txtInactividad.getText()) * 1000; // Convertir a milisegundos
 
-            if (nuevoTiempo > 0 && inactividadController != null) {
-                inactividadController.setTiempoInactividad(nuevoTiempo); // Actualizar el tiempo de inactividad
+            // Actualizar tiempo de inactividad
+            int nuevoTiempoInactividad = Integer.parseInt(txtInactividad.getText()) * 1000; // Convertir a milisegundos
+            if (nuevoTiempoInactividad > 0 && inactividadController != null) {
+                inactividadController.setTiempoInactividad(nuevoTiempoInactividad);
             }
+
+            // Actualizar tiempo de limpieza del portapapeles
+            int nuevoTiempoPortapapeles = Integer.parseInt(txtPortapapeles.getText()) * 1000; // Convertir a milisegundos
+            if (nuevoTiempoPortapapeles > 0 && portapapelesController != null) {
+                portapapelesController.setTiempoLimpiarPortapapeles(nuevoTiempoPortapapeles);
+            }
+
             stage.close(); // Cierra la ventana de configuración
         } catch (NumberFormatException e) {
-            // Muestra un mensaje en caso de error en el formato
-            notifier.showError("El tiempo de inactividad debe ser un número entero.");
+            notifier.showError("Los tiempos deben ser números enteros.");
             txtInactividad.setText("60"); // Restablecer a 60 si hay error
+            txtPortapapeles.setText("30"); // Restablecer a 30 si hay error
         }
     }
+
+
     @FXML
     private void salir(){
         //Cerrar ventana

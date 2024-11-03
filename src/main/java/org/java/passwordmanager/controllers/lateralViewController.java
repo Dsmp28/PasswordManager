@@ -44,6 +44,11 @@ public class lateralViewController implements Initializable {
         contentArea.addEventFilter(MouseEvent.MOUSE_MOVED, event -> inactividadController.setTiempoInactividad(inactividadController.getTiempoInactividad()));
         contentArea.addEventFilter(KeyEvent.KEY_PRESSED, event -> inactividadController.setTiempoInactividad(inactividadController.getTiempoInactividad()));
     }
+    private void reiniciarInactividad() {
+        if (inactividadController != null) {
+            inactividadController.setTiempoInactividad(inactividadController.getTiempoInactividad());
+        }
+    }
     @FXML
     private void activeButton(Button activo, String fxml){
         //reiniciarEstilos();
@@ -76,7 +81,8 @@ public class lateralViewController implements Initializable {
     }
     @FXML
     public void btnImportExport(){
-        try{
+        reiniciarInactividad(); // Reiniciar inactividad al hacer clic en el botón
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/importExportView.fxml"));
             Parent root = loader.load();
             Stage emergente = new Stage();
@@ -85,22 +91,20 @@ public class lateralViewController implements Initializable {
             emergente.setResizable(false);
             emergente.setMaximized(false);
             emergente.setTitle("Importar/Exportar");
-            //Añadir bien esto, pls
-//            if (inactividadController != null) {
-//                settingsController controller = loader.getController();
-//                controller.setInactividadController(inactividadController);
-//            }
+
+            // Configurar la escena y el controlador de la ventana emergente
             emergente.setScene(new Scene(root));
             importExportController controller = loader.getController();
             controller.setStage(emergente);
             emergente.showAndWait();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
     @FXML
     public void btnAjustes(){
-        try{
+        reiniciarInactividad(); // Reiniciar inactividad al hacer clic en el botón
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/settingsView.fxml"));
             Parent root = loader.load();
             Stage emergente = new Stage();
@@ -109,15 +113,17 @@ public class lateralViewController implements Initializable {
             emergente.setResizable(false);
             emergente.setMaximized(false);
             emergente.setTitle("Ajustes");
+
             if (inactividadController != null) {
                 settingsController controller = loader.getController();
                 controller.setInactividadController(inactividadController);
             }
+
             emergente.setScene(new Scene(root));
             settingsController controller = loader.getController();
             controller.setStage(emergente);
             emergente.showAndWait();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

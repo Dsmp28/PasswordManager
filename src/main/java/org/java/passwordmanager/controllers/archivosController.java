@@ -2,20 +2,25 @@ package org.java.passwordmanager.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.java.passwordmanager.encryption.DESEncryption;
 import org.java.passwordmanager.encryption.RSAEncryption;
+import org.java.passwordmanager.objects.Registro;
 import org.java.passwordmanager.objects.User;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class archivosController {
-    private RSAEncryption rsaEnc;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static RSAEncryption rsaEnc;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final String desDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/desData.json";
     private static final String userDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/userData.json";
-    private static final String encryptedDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/encryptedData.json";
+    private static final String encryptedDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/encryptedData.enc";
 
     public archivosController() {
         try {
@@ -84,6 +89,56 @@ public class archivosController {
         }
     }
 
+    public static Map<Integer, Registro> cargarRegistros() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        Map<Integer, Registro> registros = new HashMap<>();
+        try {
+            File file = new File(encryptedDataFile);
+            if (file.exists()) {
+                byte[] encryptedBytes = Files.readAllBytes(Paths.get(encryptedDataFile));
+                DESEncryption desEnc = new DESEncryption(getDesPassword());
+                byte[] decryptedDataBytes = desEnc.decrypt(encryptedBytes);
+                String jsonData = new String(decryptedDataBytes, StandardCharsets.UTF_8);
+                registros = mapper.readValue(jsonData, new TypeReference<Map<Integer, Registro>>() {});
+            }
+
+            for (Registro registro : registros.values()){
+                String encryptedPassword = registro.getPassword();
+                String decryptedPassword = new RSAEncryption().decrypt(encryptedPassword);
+                registro.setPassword(decryptedPassword);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cargar los registros: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return registros;
+    }
+
+    // Guardar los registros en el archivo
+    public void guardarRegistros(Map<Integer, Registro> registros) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        try {
+            // Crear una copia temporal de los registros con las contraseñas encriptadas
+            Map<Integer, Registro> registrosEncriptados = new HashMap<>();
+            for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
+                Registro registro = entry.getValue();
+                String password = registro.getPassword();
+                String encryptedPassword = new RSAEncryption().encrypt(password);
+                registro.setPassword(encryptedPassword);
+                registrosEncriptados.put(entry.getKey(), registro);
+            }
+
+            // Convertir `registrosEncriptados` a JSON y guardar en archivo
+            String jsonData = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(registrosEncriptados);
+            Files.write(Paths.get(encryptedDataFile), new DESEncryption(getDesPassword()).encrypt(jsonData));
+        } catch (Exception e) {
+            System.out.println("Error al guardar los registros: " + e.getMessage());
+        }
+    }
+
     public boolean isAlreadyDesKey() {
         try {
             File file = new File(desDataFile);
@@ -131,7 +186,7 @@ public class archivosController {
         }
     }
 
-    public String getDesPassword() {
+    public static String getDesPassword() {
         try {
             File file = new File(desDataFile);
             Map<String, String> desDataMap = objectMapper.readValue(file, new TypeReference<Map<String, String>>() {});

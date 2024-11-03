@@ -31,6 +31,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class homeViewController implements Initializable {
@@ -136,11 +137,12 @@ public class homeViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        RegistroController registroController = new RegistroController();
         tags = new ArrayList<>();
         paneRegistro.setVisible(false);
         panePassword.setVisible(false);
         metodoTags();
-        if(RegistroController.getSize() > 0){
+        if(registroController.getSize() > 0){
             inicializarLista();
         }
         cargarCbBusqueda();
@@ -188,23 +190,25 @@ public class homeViewController implements Initializable {
     private void inicializarLista(){
         vItems.getChildren().clear();
         try{
-            Node[] nodes = new Node[RegistroController.getSize() + 1];
+            RegistroController registroController = new RegistroController();
+            Map<Integer, Registro> registros = registroController.getRegistros();
+            Node[] nodes = new Node[registros.size() + 1];
 
-            for(int i = 1; i < RegistroController.getSize() + 1; i++){
+            for(int i = 1; i < registroController.getSize() + 1; i++){
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/org/java/passwordmanager/visuals/itemList.fxml"));
                 nodes[i] = loader.load();
                 itemController controller = loader.getController();
-                controller.setItem(RegistroController.getRegistro(i).getSiteName(), RegistroController.getRegistro(i).getUrl(), RegistroController.getRegistro(i).getIcon());
+                controller.setItem(registros.get(i).getSiteName(), registros.get(i).getUrl(), registros.get(i).getIcon());
                 final int h = i;
-                Registro actual = RegistroController.getRegistro(h);
+                Registro actual = registroController.getRegistro(h);
                 nodes[i].setOnMouseEntered(e -> {
                     //Abrir ventana de password
                     nodes[h].setStyle("-fx-background-color: #2c2c2c;");
                 });
                 nodes[i].setOnMouseClicked(e -> {
                     //DEBUG
-                    RegistroController.mostrarRegistros();
+                    registroController.mostrarRegistros();
                     //Abrir ventana de password
                     panePassword.setVisible(true);
                     vBEdit.setVisible(true);
@@ -276,6 +280,7 @@ public class homeViewController implements Initializable {
     private void guardarRegistro(){
         if(verificarCamposObligatorios()){
             try{
+                RegistroController registroController = new RegistroController();
                 //Guardar registro
                 Icon icon = new Icon(txtNombre.getText(), 32, 32, igLogo.getImage().getUrl());
                 String nombre = txtNombre.getText();
@@ -297,14 +302,15 @@ public class homeViewController implements Initializable {
                 LocalDateTime expirationDate = LocalDateTime.now().plusDays(30); //Por defecto 30 días pero puede editarse despues - // Por tiempo se pone aqui pero mejor en constructor de Registro
 
                 Registro registro = new Registro(nombre, usuario, pass, url, notas, camposExtra, new ArrayList<>(tags), creationDate, updateDate, expirationDate, icon);
-                RegistroController.addRegistro(registro);
+
+                registroController.addRegistro(registro);
 
                 for(Tag tag : tags){
                     RegistroController.addTag(tag.getName());
                 }
 
                 cargarCbTags();
-                RegistroController.mostrarRegistros();
+                registroController.mostrarRegistros();
 
                 inicializarLista();
 

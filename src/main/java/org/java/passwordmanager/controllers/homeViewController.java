@@ -214,6 +214,7 @@ public class homeViewController implements Initializable {
                     registroController.mostrarRegistros();
                     //Abrir ventana de password
                     panePassword.setVisible(true);
+                    paneRegistro.setVisible(false);
                     vBEdit.setVisible(true);
                     btnAct.setDisable(false);
                     txtNombreE.setText(actual.getSiteName());

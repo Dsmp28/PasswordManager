@@ -43,7 +43,7 @@ public class homeViewController implements Initializable {
     @FXML
     private DatePicker dpBuscar;
     @FXML
-    private ComboBox<Tag> cbTags;
+    private ComboBox<String> cbTags;
 
 
     @FXML
@@ -146,6 +146,7 @@ public class homeViewController implements Initializable {
             inicializarLista();
         }
         cargarCbBusqueda();
+        cargarCbTags();
         cbBusqueda.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             resetCampoBusqueda();
             if(newValue.equals("Tags")){
@@ -162,6 +163,13 @@ public class homeViewController implements Initializable {
                 cbTags.setVisible(false);
             }
         });
+
+        cbTags.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            if (newValue != null) {
+                SearchByField();
+            }
+        });
+
 
         //Busqueda con Enter
         txtBuscar.setOnKeyPressed(e -> {
@@ -294,7 +302,14 @@ public class homeViewController implements Initializable {
                 LocalDateTime expirationDate = LocalDateTime.now().plusDays(30); //Por defecto 30 días pero puede editarse despues - // Por tiempo se pone aqui pero mejor en constructor de Registro
 
                 Registro registro = new Registro(nombre, usuario, pass, url, notas, camposExtra, new ArrayList<>(tags), creationDate, updateDate, expirationDate, icon);
+
                 registroController.addRegistro(registro);
+
+                for(Tag tag : tags){
+                    RegistroController.addTag(tag.getName());
+                }
+
+                cargarCbTags();
                 registroController.mostrarRegistros();
 
                 inicializarLista();
@@ -398,6 +413,12 @@ public class homeViewController implements Initializable {
         cbBusqueda.getItems().add("Fecha de expiración");
         cbBusqueda.getItems().add("Tags");
     }
+    private void cargarCbTags(){
+        cbTags.getItems().clear();
+        for(String tag : RegistroController.getTags()){
+            cbTags.getItems().add(tag);
+        }
+    }
     private void resetCampoBusqueda(){
         txtBuscar.clear();
         dpBuscar.setValue(null);
@@ -405,28 +426,27 @@ public class homeViewController implements Initializable {
     }
 
     private void SearchByField(){
-        String valor = txtBuscar.getText();
         String campo = cbBusqueda.getValue();
         List<Registro> resultados = new ArrayList<>();
 
         switch (campo) {
             case "Nombre":
-              resultados = RegistroController.searchBySiteName(valor);
+              resultados = RegistroController.searchBySiteName(txtBuscar.getText());
               coincidenciasEncontrada(resultados);
               break;
             case "Usuario":
-                resultados = RegistroController.searchByUsername(valor);
+                resultados = RegistroController.searchByUsername(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
                 break;
             case "URL":
-                resultados = RegistroController.searchByURL(valor);
+                resultados = RegistroController.searchByURL(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
             case "Notas":
-                resultados = RegistroController.searchByNotes(valor);
+                resultados = RegistroController.searchByNotes(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
                 break;
             case "Campos extra":
-                resultados = RegistroController.searchByExtraField(valor);
+                resultados = RegistroController.searchByExtraField(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
                 break;
             case "Fecha de creación":
@@ -442,10 +462,11 @@ public class homeViewController implements Initializable {
                 coincidenciasEncontrada(resultados);
                 break;
             case "Tags":
-                //RegistroController.searchByTags(cbTags.getValue());
+                resultados = RegistroController.searchByTag(cbTags.getValue());
+                inicializarListaRegistrosEncontrados(resultados);
                 break;
             default:
-                inicializarLista(); //Resetea la lista a la original
+                inicializarLista(); //Mostrar todos los registros
                 break;
         }
     }

@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 
 public class homeViewController implements Initializable {
     private List<Tag> tags;
@@ -58,7 +60,8 @@ public class homeViewController implements Initializable {
     private ImageView igLogo;
     @FXML
     private Button btnGuardar;
-
+    @FXML
+    private Button btnCopiar;
     @FXML
     private TextField txtNombre;
 
@@ -393,8 +396,23 @@ public class homeViewController implements Initializable {
 
     }
     @FXML
-    private void copiarPass(){
+    private void copiarPass() {
+        // Verificar que haya una contraseña en txtPassE
+        String password = txtPassE.getText();
+        if (password != null && !password.isEmpty()) {
+            // Crear el contenido del portapapeles
+            ClipboardContent content = new ClipboardContent();
+            content.putString(password);
 
+            // Obtener el portapapeles y establecer el contenido
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            clipboard.setContent(content);
+
+            // Notificar al usuario que se ha copiado
+            notifier.showSuccess("Contraseña copiada al portapapeles");
+        } else {
+            notifier.showError("No hay contraseña para copiar");
+        }
     }
     private void cargarTagsPane(List<Tag> tagsAux) {
         tagsPaneE.getChildren().clear();

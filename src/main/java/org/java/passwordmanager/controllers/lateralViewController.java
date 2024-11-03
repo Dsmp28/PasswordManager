@@ -29,6 +29,8 @@ public class lateralViewController implements Initializable {
     @FXML
     private StackPane contentArea;
     private InactividadController inactividadController;
+    private PortapapelesController portapapelesController;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         activeButton(btnInicio, "homeView.fxml");
@@ -38,6 +40,9 @@ public class lateralViewController implements Initializable {
     }
     public void setInactividadController(InactividadController inactividadController) {
         this.inactividadController = inactividadController; //
+    }
+    public void setPortapapelesController(PortapapelesController portapapelesController) {
+        this.portapapelesController = portapapelesController;
     }
     private void configurarEventosDeActividad() {
         // Agregar filtros de eventos para detectar actividad del mouse y teclado
@@ -114,19 +119,22 @@ public class lateralViewController implements Initializable {
             emergente.setMaximized(false);
             emergente.setTitle("Ajustes");
 
-            if (inactividadController != null) {
-                settingsController controller = loader.getController();
-                controller.setInactividadController(inactividadController);
-            }
+            // Configurar el controller de settings
+            settingsController controller = loader.getController();
+            controller.setInactividadController(inactividadController);
+
+            // Obtener el tiempo del portapapeles y pasarlo al settingsController
+            long tiempoPortapapeles = portapapelesController != null ? portapapelesController.getTiempoLimpiarPortapapeles() : 30000; // 30 segundos por defecto
+            controller.setPortapapelesController(new PortapapelesController(tiempoPortapapeles)); // Nueva instancia del controlador de portapapeles
 
             emergente.setScene(new Scene(root));
-            settingsController controller = loader.getController();
             controller.setStage(emergente);
             emergente.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @FXML
 
     public void btnSalir(){

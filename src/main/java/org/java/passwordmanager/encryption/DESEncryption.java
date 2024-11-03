@@ -2,7 +2,9 @@ package org.java.passwordmanager.encryption;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 public class DESEncryption {
@@ -52,6 +54,18 @@ public class DESEncryption {
             throw new IllegalArgumentException("Invalid padding size");
         }
         return Arrays.copyOfRange(data, 0, data.length - paddingSize);
+    }
+
+    public static void main(String[] args) {
+        try {
+            File file = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/encryptedData.enc");
+            DESEncryption desEnc = new DESEncryption("12345678");
+            byte[] encryptedData = desEnc.encrypt("{}");
+            Files.write(file.toPath(), encryptedData);
+            System.out.println(encryptedData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package org.java.passwordmanager.objectControllers;
 
+import org.java.passwordmanager.controllers.archivosController;
 import org.java.passwordmanager.objects.CamposExtra;
 import org.java.passwordmanager.objects.Icon;
 import org.java.passwordmanager.objects.Registro;
@@ -14,11 +15,22 @@ import java.time.LocalDate;
 
 public class RegistroController {
 
-    public static Map<Integer, Registro> registros = new HashMap<>(); // <id, Registro>
+    public static Map<Integer, Registro> registros = new HashMap<>();
+    private static final archivosController filesController = new archivosController();
 
+    static {
+        registros = archivosController.cargarRegistros();
+        Registro.contadorId = registros.size();
+    }
 
-    public static void addRegistro(Registro registro) {
+    public RegistroController() {
+        registros = archivosController.cargarRegistros();
+        Registro.contadorId = registros.size();
+    }
+
+    public void addRegistro(Registro registro) {
         registros.put(registro.getId(), registro);
+        filesController.guardarRegistros(registros);
     }
 
     public static void removeRegistro(Registro registro) {
@@ -56,7 +68,7 @@ public class RegistroController {
         }
     }
 
-    public static Registro getRegistro(int id) {
+    public Registro getRegistro(int id) {
         return registros.get(id);
     }
     public static int getTotalRegistros() {
@@ -66,7 +78,7 @@ public class RegistroController {
         return registros;
     }
 
-    public static int getSize() {
+    public int getSize() {
         return registros.size();
     }
 
@@ -180,7 +192,7 @@ public class RegistroController {
     /////////////////////////////////////////////////////////////////////////////////////////
 
     //Prueba
-    public static void mostrarRegistros() {
+    public void mostrarRegistros() {
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
         }

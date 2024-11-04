@@ -44,6 +44,8 @@ public class NotificationService implements Notifier {
         // Mostrar el cuadro de diálogo y esperar la decisión del usuario
         Optional<ButtonType> result = alert.showAndWait();
 
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("/org/java/passwordmanager/stylesheets/alertStyles.css").toExternalForm());
+
         // Retorna true si el usuario seleccionó "Aceptar", de lo contrario, retorna false
         return result.isPresent() && result.get() == buttonAceptar;
     }
@@ -53,6 +55,7 @@ public class NotificationService implements Notifier {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("/org/java/passwordmanager/stylesheets/alertStyles.css").toExternalForm());
         alert.showAndWait();
     }
 }

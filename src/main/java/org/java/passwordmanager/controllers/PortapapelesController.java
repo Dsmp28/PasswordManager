@@ -3,6 +3,8 @@ package org.java.passwordmanager.controllers;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.input.Clipboard;
+import org.java.passwordmanager.notifications.NotificationService;
+import org.java.passwordmanager.notifications.Notifier;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,6 +13,8 @@ public class PortapapelesController {
     private long tiempoLimpiarPortapapeles; // Tiempo de limpieza en milisegundos
     private Timer timer; // Temporizador para el portapapeles
     private Alert alert; // Alerta de limpieza
+
+    private final Notifier notifier = new NotificationService();
 
     public PortapapelesController(long tiempoUsuario) {
         this.tiempoLimpiarPortapapeles = tiempoUsuario > 0 ? tiempoUsuario : 30000; // 30 segundos por defecto
@@ -36,12 +40,7 @@ public class PortapapelesController {
         // Código para limpiar el portapapeles
         Clipboard.getSystemClipboard().clear(); // Descomentar si usas el portapapeles de JavaFX
 
-        // Muestra una alerta indicando que el portapapeles se ha limpiado
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Limpieza del Portapapeles");
-        alert.setHeaderText(null);
-        alert.setContentText("El contenido del portapapeles ha sido limpiado por seguridad.");
-        alert.show();
+        notifier.showInfo("El contenido del portapapeles ha sido limpiado por seguridad.");
     }
 
     // Método para actualizar el tiempo de limpieza configurado por el usuario

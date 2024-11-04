@@ -8,6 +8,19 @@ public class importExportController {
     @FXML
     private Button btnSalir;
 
+    @FXML
+    private Button btnImportEncriptado;
+
+    @FXML
+    private Button btnExportEncriptado;
+
+    @FXML
+    private Button btnImportPlano;
+
+    @FXML
+    private Button btnExportPlano;
+
+
     private Stage stage;
 
     public void setStage(Stage stage){
@@ -18,5 +31,23 @@ public class importExportController {
     private void salir(){
         //Cerrar ventana
         stage.close();
+    }
+
+    @FXML
+    private void importEncriptado(){
+
+    }
+    @FXML
+    private void exportEncriptado(){
+
+    }
+
+    @FXML
+    private void importPlano(){
+
+    }
+    @FXML
+    private void exportPlano(){
+
     }
 }

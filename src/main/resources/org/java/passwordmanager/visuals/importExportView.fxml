@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 
-
-<AnchorPane prefHeight="300.0" prefWidth="425.0" styleClass="paneBackground" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.importExportController" stylesheets="@../stylesheets/importExportStylesheet.css">
+<AnchorPane prefHeight="202.0" prefWidth="425.0" styleClass="paneBackground" stylesheets="@../stylesheets/importExportStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.importExportController">
    <children>
       <Label layoutX="18.0" layoutY="14.0" styleClass="txtTitulo" text="Importar y Exportar" />
       <Button fx:id="btnSalir" layoutX="375.0" layoutY="17.0" mnemonicParsing="false" onAction="#salir" styleClass="btnSalir">
@@ -28,5 +27,12 @@
          </cursor>
       </Button>
       <Line endX="287.0" layoutX="119.0" layoutY="51.0" startX="-100.0" stroke="#2c2c2c" />
+      <Label layoutX="48.0" layoutY="68.0" styleClass="txtTitCampo" text="Archivos encriptados" />
+      <Button fx:id="btnImportEncriptado" layoutX="48.0" layoutY="98.0" mnemonicParsing="false" onAction="#importEncriptado" prefHeight="26.0" prefWidth="130.0" styleClass="btnAccion" text="Importar" />
+      <Line endX="92.59999084472656" endY="9.400009155273438" layoutX="119.0" layoutY="59.0" startX="92.59999084472656" startY="125.0" stroke="#2c2c2c" />
+      <Label layoutX="275.0" layoutY="68.0" styleClass="txtTitCampo" text="Texto plano" />
+      <Button fx:id="btnExportEncriptado" layoutX="48.0" layoutY="136.0" mnemonicParsing="false" onAction="#exportEncriptado" prefHeight="26.0" prefWidth="130.0" styleClass="btnAccion" text="Exportar" />
+      <Button fx:id="btnImportPlano" layoutX="246.0" layoutY="98.0" mnemonicParsing="false" onAction="#importPlano" prefHeight="26.0" prefWidth="130.0" styleClass="btnAccion" text="Importar" />
+      <Button fx:id="btnExportPlano" layoutX="246.0" layoutY="136.0" mnemonicParsing="false" onAction="#exportPlano" prefHeight="26.0" prefWidth="130.0" styleClass="btnAccion" text="Exportar" />
    </children>
 </AnchorPane>

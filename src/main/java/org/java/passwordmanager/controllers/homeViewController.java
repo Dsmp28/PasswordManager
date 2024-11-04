@@ -139,11 +139,14 @@ public class homeViewController implements Initializable {
     @FXML
     private Button btnEditar;
 
+    private Registro registroSeleccionado;
+
     private final Notifier notifier = new NotificationService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         RegistroController registroController = new RegistroController();
+        registroSeleccionado = null;
         tags = new ArrayList<>();
         paneRegistro.setVisible(false);
         panePassword.setVisible(false);
@@ -200,7 +203,10 @@ public class homeViewController implements Initializable {
             Map<Integer, Registro> registros = registroController.getRegistros();
             Node[] nodes = new Node[registros.size() + 1];
 
-            for(int i = 1; i < registroController.getSize() + 1; i++){
+            for(int i = 0; i < registroController.getSize() + 1; i++){
+                if (registros.get(i) == null) {
+                    continue;
+                }
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/org/java/passwordmanager/visuals/itemList.fxml"));
                 nodes[i] = loader.load();
@@ -217,6 +223,8 @@ public class homeViewController implements Initializable {
                     bloquearCampos();
                     //DEBUG
                     registroController.mostrarRegistros();
+                    registroSeleccionado = actual;
+
                     //Abrir ventana de password
                     panePassword.setVisible(true);
                     paneRegistro.setVisible(false);
@@ -235,7 +243,7 @@ public class homeViewController implements Initializable {
                     txtAdicional3E.setText(actual.getCamposExtra().getExtra3());
                     txtAdicional4E.setText(actual.getCamposExtra().getExtra4());
                     txtAdicional5E.setText(actual.getCamposExtra().getExtra5());
-                    igLogoE.setImage(new Image(actual.getIcon().getImagen()));
+                    igLogoE.setImage(actual.getIcon().getImage());
                     metodoTags(tagsPaneE, txtTagsE);
                 });
                 nodes[i].setOnMouseExited(e -> {
@@ -312,7 +320,7 @@ public class homeViewController implements Initializable {
                 LocalDateTime updateDate = LocalDateTime.now(); // Por tiempo se pone aqui pero mejor en constructor de Registro
                 LocalDateTime expirationDate = LocalDateTime.now().plusDays(30); //Por defecto 30 días pero puede editarse despues - // Por tiempo se pone aqui pero mejor en constructor de Registro
 
-                Registro registro = new Registro(nombre, usuario, pass, url, notas, camposExtra, new ArrayList<>(tags), creationDate, updateDate, expirationDate, icon);
+                Registro registro = new Registro(nombre, usuario, pass, url, notas, camposExtra, obtenerTagsDesdeFlowPane(tagsPane), creationDate, updateDate, expirationDate, icon);
 
                 registroController.addRegistro(registro);
 
@@ -350,7 +358,7 @@ public class homeViewController implements Initializable {
         txtAdicional5.clear();
         tags.clear();
         Icon icon = new Icon("default", 32, 32, getClass().getResource("/org/java/passwordmanager/images/subir.png").toExternalForm());
-        igLogo.setImage(new Image(icon.getImagen()));
+        igLogo.setImage(icon.getImage());
         tagsPane.getChildren().clear();
     }
     @FXML
@@ -420,7 +428,24 @@ public class homeViewController implements Initializable {
     }
     @FXML
     private void editarRegistro(){
-        //CODIGO PARA EDITAR REGISTRO
+        List<Tag> tagsActuales = obtenerTagsDesdeFlowPane(tagsPaneE);
+        RegistroController.editRegistro(registroSeleccionado, txtNombreE.getText(), txtUsuarioE.getText(), txtPassE.getText(), txtURLE.getText(), txtNotasE.getText(), new CamposExtra(txtAdicional1E.getText(), txtAdicional2E.getText(), txtAdicional3E.getText(), txtAdicional4E.getText(), txtAdicional5E.getText()), tagsActuales, LocalDateTime.now(), new Icon(txtNombreE.getText(), 32, 32, igLogoE.getImage().getUrl()));
+        inicializarLista();
+        cargarCbTags();
+        notifier.showSuccess("Registro editado correctamente");
+        bloquearCampos();
+    }
+
+    private List<Tag> obtenerTagsDesdeFlowPane(FlowPane flowPane) {
+        List<Tag> tags = new ArrayList<>();
+        for (Node node : flowPane.getChildren()) {
+            if (node instanceof Button) {
+                Button tagButton = (Button) node;
+                String tagName = tagButton.getText();
+                tags.add(new Tag(tagName));
+            }
+        }
+        return tags;
     }
     @FXML
     private void copiarPass() {
@@ -473,41 +498,42 @@ public class homeViewController implements Initializable {
     private void SearchByField(){
         String campo = cbBusqueda.getValue();
         List<Registro> resultados = new ArrayList<>();
+        RegistroController registroController = new RegistroController();
 
         switch (campo) {
             case "Nombre":
-              resultados = RegistroController.searchBySiteName(txtBuscar.getText());
+              resultados = registroController.searchBySiteName(txtBuscar.getText());
               coincidenciasEncontrada(resultados);
               break;
             case "Usuario":
-                resultados = RegistroController.searchByUsername(txtBuscar.getText());
+                resultados = registroController.searchByUsername(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
                 break;
             case "URL":
-                resultados = RegistroController.searchByURL(txtBuscar.getText());
+                resultados = registroController.searchByURL(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
             case "Notas":
-                resultados = RegistroController.searchByNotes(txtBuscar.getText());
+                resultados = registroController.searchByNotes(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
                 break;
             case "Campos extra":
-                resultados = RegistroController.searchByExtraField(txtBuscar.getText());
+                resultados = registroController.searchByExtraField(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
                 break;
             case "Fecha de creación":
-                resultados = RegistroController.searchByCreationDate(dpBuscar.getValue());
+                resultados = registroController.searchByCreationDate(dpBuscar.getValue());
                 coincidenciasEncontrada(resultados);
                 break;
             case "Fecha de actualización":
-                resultados = RegistroController.searchByUpdateDate(dpBuscar.getValue());
+                resultados = registroController.searchByUpdateDate(dpBuscar.getValue());
                 coincidenciasEncontrada(resultados);
                 break;
             case "Fecha de expiración":
-                resultados = RegistroController.searchByExpirationDate(dpBuscar.getValue());
+                resultados = registroController.searchByExpirationDate(dpBuscar.getValue());
                 coincidenciasEncontrada(resultados);
                 break;
             case "Tags":
-                resultados = RegistroController.searchByTag(cbTags.getValue());
+                resultados = registroController.searchByTag(cbTags.getValue());
                 inicializarListaRegistrosEncontrados(resultados);
                 break;
             default:
@@ -542,6 +568,7 @@ public class homeViewController implements Initializable {
                     nodes[h].setStyle("-fx-background-color: #2c2c2c;");
                 });
                 nodes[i].setOnMouseClicked(e -> {
+                    registroSeleccionado = actual;
                     panePassword.setVisible(true);
                     vBEdit.setVisible(true);
                     btnAct.setDisable(false);
@@ -557,7 +584,7 @@ public class homeViewController implements Initializable {
                     txtAdicional3E.setText(actual.getCamposExtra().getExtra3());
                     txtAdicional4E.setText(actual.getCamposExtra().getExtra4());
                     txtAdicional5E.setText(actual.getCamposExtra().getExtra5());
-                    igLogoE.setImage(new Image(actual.getIcon().getImagen()));
+                    igLogoE.setImage(actual.getIcon().getImage());
                 });
                 nodes[i].setOnMouseExited(e -> {
                     nodes[h].setStyle("-fx-background-color: #1c1c1c;");

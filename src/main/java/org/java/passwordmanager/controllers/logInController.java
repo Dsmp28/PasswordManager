@@ -5,15 +5,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.java.passwordmanager.notifications.NotificationService;
 import org.java.passwordmanager.notifications.Notifier;
 import org.java.passwordmanager.objects.User;
+
+import java.io.File;
 
 public class logInController {
     @FXML
@@ -27,6 +27,7 @@ public class logInController {
 
     @FXML
     private Button btnImportar;
+
     @FXML
     private Label lblArchivo;
 
@@ -37,6 +38,9 @@ public class logInController {
     private Button btnRegistrarse;
 
     private final Notifier notifier = new NotificationService();
+
+    private File selectedFile;
+
 
     @FXML
     private void salir() {
@@ -62,9 +66,21 @@ public class logInController {
     }
 
     @FXML
-    private void importar() {
-        // Subir archivo, extraer el nombre y colocarlo en el label lblArchivo con la etiqueta setText
+    private void importar() throws Exception {
+        // Configura el FileChooser
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar archivo");
+
+        // Filtra para mostrar solo archivos .txt y .enc
+        FileChooser.ExtensionFilter txtFilter = new FileChooser.ExtensionFilter("Archivos de texto (*.json)", "*.json");
+        FileChooser.ExtensionFilter encFilter = new FileChooser.ExtensionFilter("Archivos encriptados (*.enc)", "*.enc");
+        fileChooser.getExtensionFilters().addAll(txtFilter, encFilter);
+
+        // Abre el explorador de archivos y espera la selección
+        Stage stage = (Stage) btnImportar.getScene().getWindow();
+        selectedFile = fileChooser.showOpenDialog(stage);
     }
+
 
     @FXML
     private void iniciarSesion() {
@@ -80,6 +96,10 @@ public class logInController {
         stageActual.close();
 
         try {
+            if (selectedFile != null) {
+                importFController importFController = new importFController();
+                importFController.importarArchivo(selectedFile);
+            }
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/lateralView.fxml"));
             Stage nuevaVentana = new Stage();
             nuevaVentana.setScene(new Scene(fxmlLoader.load(), 1040, 495));

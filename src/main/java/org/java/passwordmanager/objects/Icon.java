@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import javafx.scene.image.Image;
 
+import java.io.File;
+import java.util.Objects;
+
 public class Icon {
     private String name;
     private int height;
@@ -21,6 +24,7 @@ public class Icon {
 
     public Icon() {}
 
+    // Getters
     public String getName() {
         return name;
     }
@@ -60,9 +64,25 @@ public class Icon {
         return path;
     }
 
+    // Obtener la imagen de respaldo en caso de error
     @JsonIgnore
     public Image getImage() {
-        return new Image(path);
+        try {
+            File file = new File(path.replace("file:", ""));
+            if (file.exists()) {
+                return new Image(file.toURI().toString());
+            } else {
+                System.out.println("Imagen no encontrada en la ruta: " + path + ". Usando imagen de respaldo.");
+                return getBackupImage();
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("URL de imagen no válida. Usando imagen de respaldo.");
+            return getBackupImage();
+        }
+    }
+
+    private Image getBackupImage() {
+        return new Image(Objects.requireNonNull(getClass().getResource("/org/java/passwordmanager/images/imagen.png")).toExternalForm());
     }
 
     // Método de fábrica para deserializar desde `String`
@@ -71,4 +91,5 @@ public class Icon {
         return new Icon("", 0, 0, path); // Inicializar `name`, `height` y `width` con valores predeterminados
     }
 }
+
 

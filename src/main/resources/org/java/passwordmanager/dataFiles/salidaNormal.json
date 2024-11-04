@@ -224,13 +224,12 @@
       },
       "tags": [
         "Versatile",
-        "optical",
-        "p"
+        "optical"
       ],
       "creation_date": "2024-05-16T02:26:05.1101170-06:00",
-      "update_date": "2024-11-04T01:48:52.2821250-06:00",
-      "expiration_date": "2024-11-04T01:48:52.2820330-06:00",
-      "icon": "file:/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/target/classes/org/java/passwordmanager/images/imagen.png"
+      "update_date": "2024-11-01T20:33:26.7765514-06:00",
+      "expiration_date": "2025-09-06T17:05:15.2240634-06:00",
+      "icon": "incentivize.jpg"
     }
   ]
 }

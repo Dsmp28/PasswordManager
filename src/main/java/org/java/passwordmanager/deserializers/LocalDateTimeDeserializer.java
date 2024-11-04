@@ -29,11 +29,12 @@ public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
                 throw new IOException("Array para LocalDateTime inválido. Se esperan al menos 6 elementos.");
             }
         } else {
-            // Lee como cadena y convierte a LocalDateTime
+            // Lee como cadena con zona horaria y convierte a LocalDateTime
             String date = p.getText();
             OffsetDateTime odt = OffsetDateTime.parse(date);  // Parse con zona horaria
             return odt.toLocalDateTime();  // Convertir a LocalDateTime sin zona horaria
         }
     }
 }
+
 

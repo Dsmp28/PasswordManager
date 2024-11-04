@@ -138,10 +138,10 @@ public class archivosController {
             }
 
             // Convertir `registrosEncriptados` a JSON y guardar en archivo
-            //File filePrueba = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/PruebaPass.json");
+            File filePrueba = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/PruebaPass.json");
             String jsonData = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(registrosEncriptados);
             Files.write(Paths.get(encryptedDataFile), new DESEncryption(getDesPassword()).encrypt(jsonData));
-            //Files.write(filePrueba.toPath(), jsonData.getBytes());
+            Files.write(filePrueba.toPath(), jsonData.getBytes());
         } catch (Exception e) {
             System.out.println("Error al guardar los registros: " + e.getMessage());
         }
@@ -152,10 +152,10 @@ public class archivosController {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         try {
-            //File filePrueba = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/PruebaPass.json");
+            File filePrueba = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/PruebaPass.json");
             String jsonData = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(registros);
             Files.write(Paths.get(encryptedDataFile), new DESEncryption(getDesPassword()).encrypt(jsonData));
-            //Files.write(filePrueba.toPath(), jsonData.getBytes());
+            Files.write(filePrueba.toPath(), jsonData.getBytes());
         } catch (Exception e) {
             System.out.println("Error al guardar los registros: " + e.getMessage());
         }

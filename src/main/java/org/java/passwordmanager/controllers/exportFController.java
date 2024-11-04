@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.java.passwordmanager.encryption.DESEncryption;
+import org.java.passwordmanager.encryption.RSAEncryption;
 import org.java.passwordmanager.objects.Registro;
 import org.java.passwordmanager.objects.Tag;
 
@@ -43,7 +44,11 @@ public class exportFController {
             entryNode.put("id", registro.getId());
             entryNode.put("site_name", registro.getSiteName());
             entryNode.put("username", registro.getUsername());
-            entryNode.put("password", registro.getPassword());
+            if (type.equals("enc")) {
+                entryNode.put("password", new RSAEncryption().encrypt(registro.getPassword()));
+            } else {
+                entryNode.put("password", registro.getPassword());
+            }
             entryNode.put("url", registro.getUrl());
             entryNode.put("notes", registro.getNotes());
 

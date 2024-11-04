@@ -58,7 +58,7 @@ public class DESEncryption {
 
     public static void main(String[] args) {
         try {
-            File file = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/encryptedData.enc");
+            File file = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/salidaEncriptada.enc");
             DESEncryption desEnc = new DESEncryption("12345678");
             byte[] encryptedData = desEnc.encrypt("{}");
             Files.write(file.toPath(), encryptedData);

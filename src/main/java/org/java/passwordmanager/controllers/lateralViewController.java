@@ -102,6 +102,7 @@ public class lateralViewController implements Initializable {
             importExportController controller = loader.getController();
             controller.setStage(emergente);
             emergente.showAndWait();
+            cargarFxml("homeView.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }

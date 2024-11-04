@@ -19,4 +19,6 @@ module org.java.passwordmanager {
     exports org.java.passwordmanager.controllers;
 
     exports org.java.passwordmanager.objects;
+
+    exports org.java.passwordmanager.deserializers to com.fasterxml.jackson.databind;
 }

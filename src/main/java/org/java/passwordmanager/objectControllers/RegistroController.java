@@ -47,6 +47,7 @@ public class RegistroController {
             registroViejo.setUpdateDate(LocalDateTime.now());
             registroViejo.setExpirationDate(expirationDate);
             registroViejo.setIcon(icon);
+            filesController.guardarRegistros(registros);
        }else{
               System.out.println("Registro no encontrado.");
        }
@@ -82,51 +83,51 @@ public class RegistroController {
 
     ////////////////////////////////////////// BUSQUEDAS ///////////////////////////////////////////////
 
-    public static List<Registro> searchBySiteName(String siteName) {
+    public List<Registro> searchBySiteName(String siteName) {
         List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
-            if (entry.getValue().getSiteName().equals(siteName)) {
+            if (entry.getValue().getSiteName().equals(siteName) || entry.getValue().getSiteName().contains(siteName)) {
                 registrosEncontrados.add(entry.getValue());
             }
         }
         return registrosEncontrados;
     }
 
-    public static List<Registro> searchByUsername(String username) {
+    public List<Registro> searchByUsername(String username) {
         List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
-            if (entry.getValue().getUsername().equals(username)) {
+            if (entry.getValue().getUsername().equals(username) || entry.getValue().getUsername().contains(username)) {
                 registrosEncontrados.add(entry.getValue());
             }
         }
         return registrosEncontrados;
     }
 
-    public static List<Registro> searchByURL(String url) {
+    public List<Registro> searchByURL(String url) {
         List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
-            if (entry.getValue().getUrl().equals(url)) {
+            if (entry.getValue().getUrl().equals(url) || entry.getValue().getUrl().contains(url)) {
                 registrosEncontrados.add(entry.getValue());
             }
         }
         return registrosEncontrados;
     }
 
-    public static List<Registro> searchByNotes(String notes) {
+    public List<Registro> searchByNotes(String notes) {
         List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
-            if (entry.getValue().getNotes().equals(notes)) {
+            if (entry.getValue().getNotes().equals(notes) || entry.getValue().getNotes().contains(notes)) {
                 registrosEncontrados.add(entry.getValue());
             }
         }
         return registrosEncontrados;
     }
 
-    public static List<Registro> searchByCreationDate(LocalDate creationDate) {
+    public List<Registro> searchByCreationDate(LocalDate creationDate) {
          List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
@@ -138,7 +139,7 @@ public class RegistroController {
         return registrosEncontrados;
     }
 
-    public static List<Registro> searchByUpdateDate(LocalDate updateDate) {
+    public List<Registro> searchByUpdateDate(LocalDate updateDate) {
          List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
@@ -150,7 +151,7 @@ public class RegistroController {
         return registrosEncontrados;
     }
 
-    public static List<Registro> searchByExpirationDate(LocalDate expirationDate) {
+    public List<Registro> searchByExpirationDate(LocalDate expirationDate) {
          List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
@@ -162,14 +163,14 @@ public class RegistroController {
         return registrosEncontrados;
     }
 
-    public static List<Registro> searchByExtraField(String campoExtra) {
+    public List<Registro> searchByExtraField(String campoExtra) {
         List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
             CamposExtra camposExtra = entry.getValue().getCamposExtra();
             List<String> extras = camposExtra.getExtras();
             for (String extra : extras) {
-                if (extra.equals(campoExtra)) {
+                if (extra.equals(campoExtra) || extra.contains(campoExtra)) {
                     registrosEncontrados.add(entry.getValue());
                     break;
                 }
@@ -178,12 +179,12 @@ public class RegistroController {
         return registrosEncontrados;
     }
 
-    public static List<Registro> searchByTag(String tag) {
+    public List<Registro> searchByTag(String tag) {
         List<Registro> registrosEncontrados = new ArrayList<>();
 
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
             for (Tag t : entry.getValue().getTags()) {
-                if (t.getName().equals(tag)) {
+                if (t.getName().equals(tag) || t.getName().contains(tag)) {
                     registrosEncontrados.add(entry.getValue());
                     break;
                 }
@@ -202,8 +203,10 @@ public class RegistroController {
     }
 
     //////////////////////////////////// TAGS /////////////////////////////////////////////
-    public static Set<String> getTags() {return tags;}
-    public static void addTag(String tag) {tags.add(tag);}
+    public static Set<String> getTags() {
+        return archivosController.tags;
+    }
+    public static void addTag(String tag) {archivosController.tags.add(tag);}
 
     /////////////////////////////////////////////////////////////////////////////////////////
 

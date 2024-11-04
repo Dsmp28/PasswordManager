@@ -1,11 +1,15 @@
 package org.java.passwordmanager.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CamposExtra {
     //Campos extra
+    @JsonIgnore
     private List<String> extras;
+
     private String extra1;
     private String extra2;
     private String extra3;

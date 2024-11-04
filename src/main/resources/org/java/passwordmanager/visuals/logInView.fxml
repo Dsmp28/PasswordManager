@@ -56,7 +56,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Label fx:id="lbArchivo" prefHeight="18.0" prefWidth="157.0" styleClass="txtArchivo" text="Ningún archivo seleccionado" />
+                        <Label fx:id="lblArchivo" prefHeight="18.0" prefWidth="157.0" styleClass="txtArchivo" text="Ningún archivo seleccionado" />
                      </children>
                   </HBox>
                   <VBox alignment="CENTER" prefHeight="174.0" prefWidth="343.0">

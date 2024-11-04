@@ -2,6 +2,8 @@ package org.java.passwordmanager.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.java.passwordmanager.deserializers.LocalDateTimeDeserializer;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +13,7 @@ public class Registro {
     @JsonProperty
     private Integer id;
 
-    @JsonProperty
+    @JsonProperty("site_name")
     private String siteName;
 
     @JsonProperty
@@ -26,19 +28,22 @@ public class Registro {
     @JsonProperty
     private String notes;
 
-    @JsonProperty
+    @JsonProperty("extra_fields")
     private CamposExtra camposExtra;
 
     @JsonProperty
     private List<Tag> tags;
 
-    @JsonProperty
+    @JsonProperty("creation_date")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime creationDate;
 
-    @JsonProperty
+    @JsonProperty("update_date")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updateDate;
 
-    @JsonProperty
+    @JsonProperty("expiration_date")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime expirationDate;
 
     @JsonProperty

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.java.passwordmanager.encryption.DESEncryption;
 import org.java.passwordmanager.encryption.RSAEncryption;
 import org.java.passwordmanager.objects.Registro;
+import org.java.passwordmanager.objects.Tag;
 import org.java.passwordmanager.objects.User;
 
 import java.io.File;
@@ -21,10 +22,12 @@ public class archivosController {
     private static final String desDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/desData.json";
     private static final String userDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/userData.json";
     private static final String encryptedDataFile = "src/main/resources/org/java/passwordmanager/dataFiles/encryptedData.enc";
+    public static Set<String> tags;
 
     public archivosController() {
         try {
             rsaEnc = new RSAEncryption();
+            tags = new HashSet<>();
         } catch (Exception e) {
             throw new RuntimeException("Error al cargar las llaves RSA", e);
         }
@@ -106,6 +109,9 @@ public class archivosController {
             for (Registro registro : registros.values()){
                 String encryptedPassword = registro.getPassword();
                 String decryptedPassword = new RSAEncryption().decrypt(encryptedPassword);
+                for (Tag tag : registro.getTags()) {
+                    tags.add(tag.getName());
+                }
                 registro.setPassword(decryptedPassword);
             }
         } catch (IOException e) {
@@ -132,8 +138,24 @@ public class archivosController {
             }
 
             // Convertir `registrosEncriptados` a JSON y guardar en archivo
+            File filePrueba = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/PruebaPass.json");
             String jsonData = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(registrosEncriptados);
             Files.write(Paths.get(encryptedDataFile), new DESEncryption(getDesPassword()).encrypt(jsonData));
+            Files.write(filePrueba.toPath(), jsonData.getBytes());
+        } catch (Exception e) {
+            System.out.println("Error al guardar los registros: " + e.getMessage());
+        }
+    }
+
+    // Guardar los registros en el archivo
+    public void guardarRegistrosEnc(Map<Integer, Registro> registros) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        try {
+            File filePrueba = new File("/Users/davidmonje/Documents/ProyectosPersonalesLocal/PasswordManager/src/main/resources/org/java/passwordmanager/dataFiles/PruebaPass.json");
+            String jsonData = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(registros);
+            Files.write(Paths.get(encryptedDataFile), new DESEncryption(getDesPassword()).encrypt(jsonData));
+            Files.write(filePrueba.toPath(), jsonData.getBytes());
         } catch (Exception e) {
             System.out.println("Error al guardar los registros: " + e.getMessage());
         }

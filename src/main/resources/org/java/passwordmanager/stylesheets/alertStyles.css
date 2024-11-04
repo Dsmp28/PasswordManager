@@ -28,3 +28,29 @@
     -fx-font-weight: bold;
     -fx-padding: 5px 10px;
 }
+
+.dialog-pane{
+    -fx-background-color: #2c2c2c;
+}
+.dialog-pane .label{
+    -fx-text-fill: white;
+}
+.dialog-pane .header-panel{
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-family: "Droid Sans";
+    -fx-background-color: #2c2c2c;
+}
+.dialog-pane > content.label{
+    -fx-background-color: white;
+}
+.dialog-pane .button{
+    -fx-cursor:  hand;
+    -fx-border-width: 0px;
+    -fxborder-radius: 4px;
+    -fx-background-color: #333333;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-font-family: "Droid Sans";
+    -fx-font-weight: 700;
+}

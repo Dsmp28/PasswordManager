@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.scene.control.Alert;
+import org.java.passwordmanager.notifications.NotificationService;
+import org.java.passwordmanager.notifications.Notifier;
 
 public class InactividadController {
 
@@ -18,6 +20,9 @@ public class InactividadController {
     private Timer timer; // Temporizador para manejar la inactividad
     private Stage stage; // Ventana actual para gestionar la navegación
     private Alert alert; // Referencia a la alerta de inactividad
+
+    private final Notifier notifier = new NotificationService();
+
     private static final long TIEMPO_ALERTA = 5000; // Tiempo de visualización de la alerta en milisegundos
 
     public InactividadController(long tiempoUsuario, Stage stage) {
@@ -39,12 +44,8 @@ public class InactividadController {
 
     // Verifica la inactividad y muestra la alerta de advertencia
     private void mostrarAlertaInactividad() {
-        // Mostrar alerta de inactividad
-        alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Alerta de Inactividad");
-        alert.setHeaderText(null);
-        alert.setContentText("La aplicación se bloqueará en 5 segundos.");
-        alert.show(); // Muestra la alerta
+
+        notifier.showWarning("La aplicación se bloqueará en 5 segundos.");
 
         // Configurar un timer para cerrar la sesión automáticamente después del tiempo de alerta
         new Timer().schedule(new TimerTask() {

@@ -136,6 +136,9 @@ public class homeViewController implements Initializable {
     @FXML
     private VBox vBEdit;
 
+    @FXML
+    private Button btnEditar;
+
     private final Notifier notifier = new NotificationService();
 
     @Override
@@ -144,7 +147,7 @@ public class homeViewController implements Initializable {
         tags = new ArrayList<>();
         paneRegistro.setVisible(false);
         panePassword.setVisible(false);
-        metodoTags();
+        metodoTags(tagsPane, txtTags);
         if(registroController.getSize() > 0){
             inicializarLista();
         }
@@ -210,10 +213,13 @@ public class homeViewController implements Initializable {
                     nodes[h].setStyle("-fx-background-color: #2c2c2c;");
                 });
                 nodes[i].setOnMouseClicked(e -> {
+
+                    bloquearCampos();
                     //DEBUG
                     registroController.mostrarRegistros();
                     //Abrir ventana de password
                     panePassword.setVisible(true);
+                    paneRegistro.setVisible(false);
                     vBEdit.setVisible(true);
                     btnAct.setDisable(false);
                     txtNombreE.setText(actual.getSiteName());
@@ -221,6 +227,7 @@ public class homeViewController implements Initializable {
                     txtPassE.setText(actual.getPassword());
                     txtURLE.setText(actual.getUrl());
                     txtNotasE.setText(actual.getNotes());
+                    txtTagsE.setText("");
                     List<Tag> tagsAux = new ArrayList<>(actual.getTags());
                     cargarTagsPane(tagsAux);
                     txtAdicional1E.setText(actual.getCamposExtra().getExtra1());
@@ -229,6 +236,7 @@ public class homeViewController implements Initializable {
                     txtAdicional4E.setText(actual.getCamposExtra().getExtra4());
                     txtAdicional5E.setText(actual.getCamposExtra().getExtra5());
                     igLogoE.setImage(new Image(actual.getIcon().getImagen()));
+                    metodoTags(tagsPaneE, txtTagsE);
                 });
                 nodes[i].setOnMouseExited(e -> {
                     nodes[h].setStyle("-fx-background-color: #1c1c1c;");
@@ -247,11 +255,11 @@ public class homeViewController implements Initializable {
         System.out.println(tags.size());
     }
 
-    private void metodoTags() {
-        txtTags.setOnKeyPressed(e -> {
-            if (e.getCode().toString().equals("ENTER") && !txtTags.getText().isEmpty()) {
-                tagButton(tagsPane, txtTags.getText().trim());
-                txtTags.clear();
+    private void metodoTags(FlowPane tPane, TextField txTag) {
+        txTag.setOnKeyPressed(e -> {
+            if (e.getCode().toString().equals("ENTER") && !txTag.getText().isEmpty()) {
+                tagButton(tPane, txTag.getText().trim());
+                txTag.clear();
             }
         });
     }
@@ -390,10 +398,29 @@ public class homeViewController implements Initializable {
         txtAdicional4E.setDisable(false);
         txtAdicional5E.setDisable(false);
         btnSubirE.setDisable(false);
+        btnEditar.setDisable(false);
+    }
+
+    @FXML
+    private void bloquearCampos(){
+        txtNombreE.setDisable(true);
+        txtUsuarioE.setDisable(true);
+        txtPassE.setDisable(true);
+        txtURLE.setDisable(true);
+        txtNotasE.setDisable(true);
+        txtTagsE.setDisable(true);
+        tagsPaneE.setDisable(true);
+        txtAdicional1E.setDisable(true);
+        txtAdicional2E.setDisable(true);
+        txtAdicional3E.setDisable(true);
+        txtAdicional4E.setDisable(true);
+        txtAdicional5E.setDisable(true);
+        btnSubirE.setDisable(true);
+        btnEditar.setDisable(true);
     }
     @FXML
     private void editarRegistro(){
-
+        //CODIGO PARA EDITAR REGISTRO
     }
     @FXML
     private void copiarPass() {

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public class RegistroController {
 
     public static Map<Integer, Registro> registros = new HashMap<>();
+    public static List<Registro> registrosSeleccionados = new ArrayList<>();
     private static final archivosController filesController = new archivosController();
     public static Set<String> tags = new HashSet<>();
 
@@ -208,7 +209,26 @@ public class RegistroController {
     }
     public static void addTag(String tag) {archivosController.tags.add(tag);}
 
-    /////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////// LISTA DE SELECCIONADOS //////////////////////////////////////
+
+    public static void addRegistroSeleccionado(Registro registro) {
+        registrosSeleccionados.add(registro);
+    }
+
+    public static void removeRegistroSeleccionado(Registro registro) {
+        registrosSeleccionados.remove(registro);
+    }
+
+    public static void clearRegistrosSeleccionados() {
+        registrosSeleccionados.clear();
+    }
+
+    public static List<Registro> getRegistrosSeleccionados() {
+        return registrosSeleccionados;
+    }
+
+
+    ////////////////////////////////////////// PRUEBAS ///////////////////////////////////////////////
 
     //Prueba
     public void mostrarRegistros() {

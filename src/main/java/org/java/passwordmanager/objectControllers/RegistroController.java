@@ -1,5 +1,7 @@
 package org.java.passwordmanager.objectControllers;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import org.java.passwordmanager.controllers.archivosController;
 import org.java.passwordmanager.objects.CamposExtra;
 import org.java.passwordmanager.objects.Icon;
@@ -12,6 +14,8 @@ import java.time.LocalDate;
 
 public class RegistroController {
 
+    //Propiedad para el tamaño de la lista de registros seleccionados
+    private IntegerProperty listaSeleccionadaSize = new SimpleIntegerProperty(0);
     public static Map<Integer, Registro> registros = new HashMap<>();
     public static List<Registro> registrosSeleccionados = new ArrayList<>();
     private static final archivosController filesController = new archivosController();
@@ -25,6 +29,7 @@ public class RegistroController {
     public RegistroController() {
         registros = archivosController.cargarRegistros();
         Registro.contadorId = registros.size();
+        actualizarSeleccionadaSize();
     }
 
     public void addRegistro(Registro registro) {
@@ -211,22 +216,37 @@ public class RegistroController {
 
     /////////////////////////////////////////// LISTA DE SELECCIONADOS //////////////////////////////////////
 
-    public static void addRegistroSeleccionado(Registro registro) {
+    public void addRegistroSeleccionado(Registro registro) {
         registrosSeleccionados.add(registro);
+        actualizarSeleccionadaSize();
     }
 
-    public static void removeRegistroSeleccionado(Registro registro) {
+    public void removeRegistroSeleccionado(Registro registro) {
         registrosSeleccionados.remove(registro);
+        actualizarSeleccionadaSize();
     }
 
-    public static void clearRegistrosSeleccionados() {
+    public void clearRegistrosSeleccionados() {
         registrosSeleccionados.clear();
     }
 
-    public static List<Registro> getRegistrosSeleccionados() {
+    public List<Registro> getRegistrosSeleccionados() {
         return registrosSeleccionados;
     }
 
+    public void actualizarSeleccionadaSize() {
+        listaSeleccionadaSize.set(registrosSeleccionados.size());
+    }
+
+    public IntegerProperty listaSeleccionadaSizeProperty() {
+        return listaSeleccionadaSize;
+    }
+
+    public void mostrarRegistrosSeleccionados() {
+        for (Registro registro : registrosSeleccionados) {
+            System.out.println(registro);
+        }
+    }
 
     ////////////////////////////////////////// PRUEBAS ///////////////////////////////////////////////
 

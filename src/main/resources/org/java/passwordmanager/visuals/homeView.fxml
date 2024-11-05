@@ -17,14 +17,15 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="875.0" styleClass="paneBackground" stylesheets="@../stylesheets/homeStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.homeViewController">
    <children>
       <DatePicker fx:id="dpBuscar" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="102.0" styleClass="txtFieldCampo" visible="false" />
       <ComboBox fx:id="cbTags" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="102.0" styleClass="cbCampo" visible="false" />
       <TextField fx:id="txtBuscar" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="102.0" promptText="Buscar por..." styleClass="textFieldBackground" />
-      <ComboBox fx:id="cbBusqueda" layoutX="122.0" layoutY="14.0" prefHeight="25.0" prefWidth="95.0" styleClass="cbCampo" />
-      <Button fx:id="btnNuevo" layoutX="224.0" layoutY="14.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" prefHeight="25.0" prefWidth="27.0" styleClass="btnAnadir">
+      <ComboBox fx:id="cbBusqueda" layoutX="122.0" layoutY="14.0" prefHeight="25.0" prefWidth="94.0" styleClass="cbCampo" />
+      <Button fx:id="btnNuevo" layoutX="227.0" layoutY="15.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" prefHeight="25.0" prefWidth="27.0" styleClass="btnAnadir">
          <graphic>
             <ImageView fx:id="" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -39,10 +40,10 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Line endX="100.0" layoutX="168.0" startX="100.0" startY="499.0" />
-      <ScrollPane fitToWidth="true" layoutX="16.0" layoutY="53.0" prefHeight="435.0" prefWidth="238.0">
+      <Line endX="100.0" layoutX="178.0" startX="100.0" startY="499.0" />
+      <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="16.0" layoutY="53.0" prefHeight="408.0" prefWidth="248.0">
          <content>
-            <VBox fx:id="vItems" prefHeight="435.0" prefWidth="240.0" />
+            <VBox fx:id="vItems" prefHeight="405.0" prefWidth="230.0" scaleShape="false" />
          </content>
       </ScrollPane>
       <Pane fx:id="paneRegistro" layoutX="269.0" layoutY="6.0" prefHeight="494.0" prefWidth="607.0" visible="false">
@@ -176,9 +177,9 @@
                      </children>
                   </HBox>
                   <Region prefHeight="21.0" prefWidth="607.0" />
-                  <Line endX="567.7929077148438" endY="-2.278174877166748" startX="-20.5" stroke="#484848">
+                  <Line endX="567.7929077148438" endY="-2.278174877166748" startX="-20.0" stroke="#484848">
                      <VBox.margin>
-                        <Insets />
+                        <Insets left="10.0" />
                      </VBox.margin>
                   </Line>
                   <HBox prefHeight="345.0" prefWidth="607.0">
@@ -253,5 +254,17 @@
             </VBox>
          </children>
       </Pane>
+      <Button fx:id="btnExportar" alignment="CENTER" contentDisplay="CENTER" layoutX="16.0" layoutY="461.0" mnemonicParsing="false" onAction="#exportarSeleccionados" prefHeight="24.0" prefWidth="78.0" styleClass="btnSalir" textFill="WHITE">
+         <graphic>
+            <Text fx:id="txtRegistrarse" fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtSignIn" text="Exportar seleccionados" underline="true" wrappingWidth="195.10977935791016">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </Pane>

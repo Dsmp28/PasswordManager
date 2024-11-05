@@ -1,5 +1,6 @@
 package org.java.passwordmanager.controllers;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -47,6 +48,8 @@ public class homeViewController implements Initializable {
     @FXML
     private ComboBox<String> cbTags;
 
+    @FXML
+    private Button btnExportar;
 
     @FXML
     private Button btnNuevo;
@@ -210,8 +213,14 @@ public class homeViewController implements Initializable {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/org/java/passwordmanager/visuals/itemList.fxml"));
                 nodes[i] = loader.load();
+
                 itemController controller = loader.getController();
                 controller.setItem(registros.get(i).getSiteName(), registros.get(i).getUrl(), registros.get(i).getIcon());
+                controller.setRegistro(registros.get(i));
+                controller.setRegistroController(registroController);
+
+                //Para habilitar o deshabilitar el botón de exportar, se habilita si la lista de seleccionados es mayor a 0
+                btnExportar.disableProperty().bind(Bindings.lessThan(registroController.listaSeleccionadaSizeProperty(), 1));
                 final int h = i;
                 Registro actual = registroController.getRegistro(h);
                 nodes[i].setOnMouseEntered(e -> {
@@ -219,7 +228,6 @@ public class homeViewController implements Initializable {
                     nodes[h].setStyle("-fx-background-color: #2c2c2c;");
                 });
                 nodes[i].setOnMouseClicked(e -> {
-
                     bloquearCampos();
                     //DEBUG
                     registroController.mostrarRegistros();
@@ -245,6 +253,7 @@ public class homeViewController implements Initializable {
                     txtAdicional5E.setText(actual.getCamposExtra().getExtra5());
                     igLogoE.setImage(actual.getIcon().getImage());
                     metodoTags(tagsPaneE, txtTagsE);
+
                 });
                 nodes[i].setOnMouseExited(e -> {
                     nodes[h].setStyle("-fx-background-color: #1c1c1c;");
@@ -558,6 +567,8 @@ public class homeViewController implements Initializable {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/org/java/passwordmanager/visuals/itemList.fxml"));
                 nodes[i] = loader.load();
+                nodes[i].prefWidth(235);
+                nodes[i].prefHeight(60);
 
                 itemController controller = loader.getController();
                 Registro actual = registros.get(i);
@@ -596,5 +607,11 @@ public class homeViewController implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void exportarSeleccionados(){
+        //RegistroController registroController = new RegistroController();
+        //registroController.mostrarRegistrosSeleccionados();
 
+        ////////////EXPORTAR SELECCIONADOS////////////////
+    }
 }

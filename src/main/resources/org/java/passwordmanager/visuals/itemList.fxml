@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="60.0" prefWidth="260.0" styleClass="backgroundItem" stylesheets="@../stylesheets/itemStylesheet.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.itemController">
+<AnchorPane maxHeight="60.0" maxWidth="225.0" minHeight="60.0" minWidth="225.0" prefHeight="60.0" prefWidth="225.0" styleClass="backgroundItem" stylesheets="@../stylesheets/itemStylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.java.passwordmanager.controllers.itemController">
    <children>
-      <ImageView fx:id="igLogo" fitHeight="32.0" fitWidth="32.0" layoutX="20.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="igLogo" fitHeight="32.0" fitWidth="32.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/caja.png" />
          </image>
       </ImageView>
-      <Label fx:id="lbNombre" layoutX="78.0" layoutY="10.0" styleClass="txtTitulo" text="Nombre App" />
-      <Label fx:id="lbURL" layoutX="78.0" layoutY="31.0" styleClass="txtCorreo" text="email@mail.com" />
+      <Label fx:id="lbNombre" layoutX="72.0" layoutY="11.0" styleClass="txtTitulo" text="Nombre App" />
+      <Label fx:id="lbURL" layoutX="72.0" layoutY="32.0" styleClass="txtCorreo" text="email@mail.com" />
+      <CheckBox fx:id="chbSeleccion" layoutX="195.0" layoutY="22.0" mnemonicParsing="false" />
    </children>
 </AnchorPane>

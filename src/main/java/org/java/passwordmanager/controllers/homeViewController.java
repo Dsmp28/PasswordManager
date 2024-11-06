@@ -4,6 +4,8 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,8 +14,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.stage.StageStyle;
 import org.java.passwordmanager.HelloApplication;
 import org.java.passwordmanager.notifications.NotificationService;
 import org.java.passwordmanager.notifications.Notifier;
@@ -613,5 +617,30 @@ public class homeViewController implements Initializable {
         //registroController.mostrarRegistrosSeleccionados();
 
         ////////////EXPORTAR SELECCIONADOS////////////////
+        //reiniciarInactividad(); // Reiniciar inactividad al hacer clic en el botón
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/java/passwordmanager/visuals/importExportSelected.fxml"));
+            Parent root = loader.load();
+            Stage emergente = new Stage();
+            emergente.initModality(Modality.APPLICATION_MODAL);
+            emergente.initStyle(StageStyle.UNDECORATED);
+            emergente.setResizable(false);
+            emergente.setMaximized(false);
+            emergente.setTitle("Exportar Seleccionado");
+
+
+            // Configurar la escena y el controlador de la ventana emergente
+            emergente.setScene(new Scene(root));
+            importExportSelectedController controller = loader.getController();
+            controller.setStage(emergente);
+            emergente.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
+
+
+
 }

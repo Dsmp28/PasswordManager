@@ -525,6 +525,7 @@ public class homeViewController implements Initializable {
             case "URL":
                 resultados = registroController.searchByURL(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);
+                break;
             case "Notas":
                 resultados = registroController.searchByNotes(txtBuscar.getText());
                 coincidenciasEncontrada(resultados);

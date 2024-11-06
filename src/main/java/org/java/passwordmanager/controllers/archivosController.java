@@ -71,13 +71,16 @@ public class archivosController {
             DESEncryption desEnc = new DESEncryption(getDesPassword());
 
             File file = new File(encryptedDataFile);
-            String oldEncryptedData = objectMapper.readValue(file, new TypeReference<String>() {});
 
-            byte[] decryptedData = desEnc.decrypt(oldEncryptedData.getBytes());
+            byte[] oldEncryptedData = Files.readAllBytes(file.toPath());
+
+            byte[] decryptedData = desEnc.decrypt(oldEncryptedData);
+
+            String jsonData = new String(decryptedData, StandardCharsets.UTF_8);
 
             desEnc.setKey(newPassword);
 
-            byte[] newEncryptedData = desEnc.encrypt(Arrays.toString(decryptedData));
+            byte[] newEncryptedData = desEnc.encrypt(jsonData);
 
             Files.write(file.toPath(), newEncryptedData);
 

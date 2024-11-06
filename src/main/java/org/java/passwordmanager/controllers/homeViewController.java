@@ -388,6 +388,7 @@ public class homeViewController implements Initializable {
                 int height = 32;
                 // Icon icon = new Icon(file.getName(), height, width, file.getAbsolutePath());
                 igLogo.setImage(new Image(file.toURI().toString()));
+                igLogoE.setImage(new Image(file.toURI().toString()));
 
             }catch (Exception e){
                 notifier.showError("Error al subir imagen");

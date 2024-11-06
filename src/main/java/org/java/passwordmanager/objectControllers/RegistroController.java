@@ -3,10 +3,7 @@ package org.java.passwordmanager.objectControllers;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.java.passwordmanager.controllers.archivosController;
-import org.java.passwordmanager.objects.CamposExtra;
-import org.java.passwordmanager.objects.Icon;
-import org.java.passwordmanager.objects.Registro;
-import org.java.passwordmanager.objects.Tag;
+import org.java.passwordmanager.objects.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -20,6 +17,8 @@ public class RegistroController {
     public static List<Registro> registrosSeleccionados = new ArrayList<>();
     private static final archivosController filesController = new archivosController();
     public static Set<String> tags = new HashSet<>();
+    private ExpiracionRegistroTimer expiracionRegistroTimer;
+
 
     static {
         registros = archivosController.cargarRegistros();
@@ -30,6 +29,9 @@ public class RegistroController {
         registros = archivosController.cargarRegistros();
         Registro.contadorId = registros.size();
         actualizarSeleccionadaSize();
+        expiracionRegistroTimer = new ExpiracionRegistroTimer();
+        expiracionRegistroTimer.startExpirationCheck(); // Inicia el temporizador
+
     }
 
     public void addRegistro(Registro registro) {
@@ -63,6 +65,10 @@ public class RegistroController {
         for (Map.Entry<Integer, Registro> entry : registros.entrySet()) {
             entry.getValue().setExpirationDate(newExpirationDate);
         }
+
+        // Llamar al método guardarRegistros de archivosController para guardar los cambios permanentemente
+        archivosController archivosController = new archivosController();
+        archivosController.guardarRegistros(registros);
     }
 
     public void changeExpirationDate(Registro registro, LocalDateTime newExpirationDate) {

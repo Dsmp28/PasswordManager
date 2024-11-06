@@ -236,7 +236,7 @@ public class RegistroController {
         registrosSeleccionados.clear();
     }
 
-    public List<Registro> getRegistrosSeleccionados() {
+    public static  List<Registro> getRegistrosSeleccionados() {
         return registrosSeleccionados;
     }
 

@@ -36,8 +36,6 @@ public class lateralViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         activeButton(btnInicio, "homeView.fxml");
         configurarEventosDeActividad();
-
-
     }
     public void setInactividadController(InactividadController inactividadController) {
         this.inactividadController = inactividadController; //

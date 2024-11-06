@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.java.passwordmanager.objectControllers.RegistroController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -121,7 +122,8 @@ public class lateralViewController implements Initializable {
             // Configurar el controller de settings
             settingsController controller = loader.getController();
             controller.setInactividadController(inactividadController);
-
+            RegistroController registroController = new RegistroController();
+            controller.setRegistroController(registroController);
             // Obtener el tiempo del portapapeles y pasarlo al settingsController
             long tiempoPortapapeles = portapapelesController != null ? portapapelesController.getTiempoLimpiarPortapapeles() : 30000; // 30 segundos por defecto
             controller.setPortapapelesController(new PortapapelesController(tiempoPortapapeles)); // Nueva instancia del controlador de portapapeles

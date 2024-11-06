@@ -46,6 +46,10 @@ public class importExportController {
         try {
             File file = selectFile("enc");
             importFController importFController = new importFController();
+            if (file == null) {
+                notifier.showError("No se seleccionó ningún archivo");
+                return;
+            }
             importFController.importarArchivo(file);
             notifier.showSuccess("Archivo importado correctamente");
             stage.close();

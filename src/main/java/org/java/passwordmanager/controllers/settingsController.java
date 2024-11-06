@@ -81,8 +81,14 @@ public class settingsController implements Initializable {
             String oldPassword = txtAntigua.getText();
             String newPassword = txtNueva.getText();
 
-            if (!oldPassword.isEmpty() && !newPassword.isEmpty() && oldPassword.equals(archivosController.getDesPassword())) {
+            if (!newPassword.isEmpty() && newPassword.length() != 8){
+                notifier.showError("La nueva contraseña debe tener 8 caracteres.");
+                return;
+            }
+
+            if (!oldPassword.isEmpty() && oldPassword.equals(archivosController.getDesPassword())) {
                 archivosController.updateDesPassword(newPassword);
+                notifier.showSuccess("Contraseña actualizada correctamente.");
             } else if (!oldPassword.isEmpty() && !newPassword.isEmpty()) {
                 notifier.showError("La contraseña antigua es incorrecta.");
                 return;

@@ -2,17 +2,19 @@ package org.java.passwordmanager.controllers;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.Clipboard;
 import org.java.passwordmanager.notifications.NotificationService;
 import org.java.passwordmanager.notifications.Notifier;
 
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class PortapapelesController {
     private long tiempoLimpiarPortapapeles; // Tiempo de limpieza en milisegundos
     private Timer timer; // Temporizador para el portapapeles
-    private Alert alert; // Alerta de limpieza
+    private boolean mostrarAlertas = true; // Variable para controlar si se deben mostrar alertas
 
     private final Notifier notifier = new NotificationService();
 
@@ -35,12 +37,32 @@ public class PortapapelesController {
         }, tiempoLimpiarPortapapeles, tiempoLimpiarPortapapeles); // Ejecuta la tarea repetidamente
     }
 
-    // Limpia el contenido del portapapeles y muestra una alerta
+    // Limpia el contenido del portapapeles y muestra una alerta si el usuario no ha desactivado las notificaciones
     private void limpiarPortapapeles() {
         // Código para limpiar el portapapeles
         Clipboard.getSystemClipboard().clear(); // Descomentar si usas el portapapeles de JavaFX
 
-        notifier.showInfo("El contenido del portapapeles ha sido limpiado por seguridad.");
+        if (mostrarAlertas) {
+            mostrarAlertaConConfirmacion();
+        }
+    }
+
+    // Muestra una alerta con la opción de desactivar futuras alertas
+    private void mostrarAlertaConConfirmacion() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Limpieza de Portapapeles");
+        alert.setHeaderText("El contenido del portapapeles ha sido limpiado por seguridad.");
+        alert.setContentText("¿Desea seguir recibiendo esta notificación en el futuro?");
+
+        ButtonType buttonYes = new ButtonType("Sí");
+        ButtonType buttonNo = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonYes, buttonNo);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == buttonNo) {
+            mostrarAlertas = false; // Desactiva las alertas futuras
+        }
     }
 
     // Método para actualizar el tiempo de limpieza configurado por el usuario

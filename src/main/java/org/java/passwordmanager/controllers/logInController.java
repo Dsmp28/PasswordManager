@@ -79,6 +79,11 @@ public class logInController {
         // Abre el explorador de archivos y espera la selección
         Stage stage = (Stage) btnImportar.getScene().getWindow();
         selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            lblArchivo.setText(selectedFile.getName());
+        } else {
+            lblArchivo.setText("No se ha seleccionado un archivo");
+        }
     }
 
 
@@ -108,7 +113,6 @@ public class logInController {
             // Inicializar controladores de inactividad y portapapeles
             InactividadController inactividadController = new InactividadController(60000, nuevaVentana);
             PortapapelesController portapapelesController = new PortapapelesController(30000);
-
             lateralViewController controller = fxmlLoader.getController();
             controller.setInactividadController(inactividadController);
             controller.setPortapapelesController(portapapelesController);

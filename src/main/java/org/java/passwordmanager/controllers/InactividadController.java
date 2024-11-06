@@ -44,8 +44,12 @@ public class InactividadController {
 
     // Verifica la inactividad y muestra la alerta de advertencia
     private void mostrarAlertaInactividad() {
-
-        notifier.showWarning("La aplicación se bloqueará en 5 segundos.");
+// Mostrar alerta de inactividad
+        alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Alerta de Inactividad");
+        alert.setHeaderText(null);
+        alert.setContentText("La aplicación se bloqueará en 5 segundos.");
+        alert.show(); // Muestra la alerta
 
         // Configurar un timer para cerrar la sesión automáticamente después del tiempo de alerta
         new Timer().schedule(new TimerTask() {
